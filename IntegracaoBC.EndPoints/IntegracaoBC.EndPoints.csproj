@@ -1,0 +1,16 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="5.0.4" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\IntegracaoBC.Infra.Dental021\IntegracaoBC.Infra.Dental021.csproj" />
+    <ProjectReference Include="..\IntegracaoBC.Services\IntegracaoBC.Services.csproj" />
+  </ItemGroup>
+
+</Project>

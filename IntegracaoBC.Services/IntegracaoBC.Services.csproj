@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\IntegracaoBC.Infra.BoaConsulta\IntegracaoBC.Infra.BoaConsulta.csproj" />
+    <ProjectReference Include="..\IntegracaoBC.Infra.Dental021\IntegracaoBC.Infra.Dental021.csproj" />
+  </ItemGroup>
+
+</Project>
