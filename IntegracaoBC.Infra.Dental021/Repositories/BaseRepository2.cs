@@ -2,7 +2,7 @@
 
 namespace IntegracaoBC.Infra.Dental021.Repositories
 {
-    public class BaseRepository
+    public class BaseRepository2
     {
         protected readonly IConfiguration _iConfiguration;
 
@@ -10,7 +10,7 @@ namespace IntegracaoBC.Infra.Dental021.Repositories
         protected readonly string token;
 
 
-        public BaseRepository(IConfiguration iConfiguration)
+        public BaseRepository2(IConfiguration iConfiguration)
         {
             _iConfiguration = iConfiguration;
 

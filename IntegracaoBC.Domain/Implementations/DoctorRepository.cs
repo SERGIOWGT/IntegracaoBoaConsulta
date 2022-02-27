@@ -1,7 +1,6 @@
-﻿using IntegracaoBC.Domain.Interfaces;
+﻿/*
+using IntegracaoBC.Domain.Interfaces;
 using IntegracaoBC.Domain.Mappings;
-using Microsoft.Extensions.Configuration;
-using Newtonsoft.Json;
 using System;
 using System.Net;
 using System.Net.Http;
@@ -140,3 +139,5 @@ namespace IntegracaoBC.Infra.BoaConsulta.Repositories
         }
     }
 }
+
+*/

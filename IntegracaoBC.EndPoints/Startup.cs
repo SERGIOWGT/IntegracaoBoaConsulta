@@ -5,9 +5,12 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using IntegracaoBC.Services.Interfaces;
 using IntegracaoBC.Services.Implementations;
-using IntegracaoBC.Infra.BoaConsulta.Repositories;
 using IntegracaoBC.Domain.Interfaces;
 using IntegracaoBC.Infra.Dental021.Repositories;
+using IntegracaoBC.Infra.BoaConsulta.Repositories;
+using IntegracaoBC.Provider.BoaConsulta;
+using IntegracaoBC.Provider.Dental021;
+using IntegracaoBC.Domain.Implementations;
 
 namespace IntegracaoBC.EndPoints
 {
@@ -23,14 +26,30 @@ namespace IntegracaoBC.EndPoints
         {
             // Injeção das Entidades
             services.AddSingleton(Configuration);
+
+            services.AddSingleton<IProviderBoaConsulta, ProviderBoaConsulta>();
+            services.AddSingleton<IProvider021Dental, Provider021Dental>();
+
             services.AddSingleton<ILocationService, LocationService>();
-            services.AddSingleton<IAgendaService, AgendaService>();
-            services.AddSingleton<IDentistaRepository, DentistaRepository>();
-            services.AddSingleton<IDoctorRepository, DoctorRepository>();
-            services.AddSingleton<ILocationRepository, LocationRepository>();
+            services.AddSingleton<ISpecialtyService, SpecialtyService>();
+            services.AddSingleton<IEspecialidadeAgendaService, EspecialidadeAgendaService>();
+
             services.AddSingleton<IConsultorioRepository, ConsultorioRepository>();
-            services.AddSingleton<IExpedienteDentistaRepository, ExpedienteDentistaRepository>();
-            services.AddSingleton<ILoginBoaConsultaRepository, LoginBoaConsultaRepository>();
+            //services.AddSingleton<IAgendaService, AgendaService>();
+            //services.AddSingleton<IAgendaRepository, AgendaRepository>();
+            //services.AddSingleton<IDentistaRepository, DentistaRepository>();
+            //services.AddSingleton<IDoctorRepository, DoctorRepository>();
+            services.AddSingleton<IEspecialidadeAgendaRepository, EspecialidadeAgendaRepository>();
+            services.AddSingleton<ILocationRepository, LocationRepository>();
+            services.AddSingleton<ISpecialtyRepository, SpecialtyRepository>();
+            services.AddSingleton<IReasonRepository, ReasonRepository>();
+
+
+
+
+            //services.AddSingleton<IExpedienteDentistaRepository, ExpedienteDentistaRepository>();
+            //services.AddSingleton<ILoginBoaConsultaRepository, LoginBoaConsultaRepository>();
+            //services.AddSingleton<IWorkScheduleRepository, WorkScheduleRepository>();
 
             services.AddCors();
             services.AddMvc();

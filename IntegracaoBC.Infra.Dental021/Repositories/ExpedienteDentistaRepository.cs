@@ -9,7 +9,7 @@ using System.Net.Http;
 
 namespace IntegracaoBC.Infra.Dental021.Repositories
 {
-    public class ExpedienteDentistaRepository : BaseRepository, IExpedienteDentistaRepository
+    public class ExpedienteDentistaRepository : BaseRepository2, IExpedienteDentistaRepository
     {
         public ExpedienteDentistaRepository(IConfiguration iConfiguration) : base(iConfiguration) { }
 

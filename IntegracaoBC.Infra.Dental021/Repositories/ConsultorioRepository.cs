@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace IntegracaoBC.Infra.Dental021.Repositories
 {
-    public class ConsultorioRepository : BaseRepository, IConsultorioRepository
+    public class ConsultorioRepository : BaseRepository2, IConsultorioRepository
     {
 
         public ConsultorioRepository(IConfiguration iConfiguration) : base (iConfiguration) {}

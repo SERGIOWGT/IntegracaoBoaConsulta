@@ -18,6 +18,7 @@ namespace IntegracaoBC.EndPoints.Controllers
         [HttpPut("Sync")]
         public async Task<ActionResult> Sync()
         {
+
             var _erros = (List<string>)await _iService.Sync();
 
             return _erros.Count > 0 ? BadRequest(_erros) : NoContent();

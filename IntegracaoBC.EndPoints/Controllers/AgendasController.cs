@@ -1,4 +1,5 @@
-﻿using IntegracaoBC.Services.Interfaces;
+﻿/*
+using IntegracaoBC.Services.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -27,3 +28,4 @@ namespace IntegracaoBC.EndPoints.Controllers
         }
     }
 }
+*/

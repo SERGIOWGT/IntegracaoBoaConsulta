@@ -9,7 +9,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\IntegracaoBC.Infra.Dental021\IntegracaoBC.Infra.Dental021.csproj" />
     <ProjectReference Include="..\IntegracaoBC.Services\IntegracaoBC.Services.csproj" />
   </ItemGroup>
 

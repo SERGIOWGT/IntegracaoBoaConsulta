@@ -1,7 +1,6 @@
-﻿using IntegracaoBC.Domain.Interfaces;
+﻿/*
+using IntegracaoBC.Domain.Interfaces;
 using IntegracaoBC.Domain.Mappings;
-using Microsoft.Extensions.Configuration;
-using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Net;
@@ -39,3 +38,4 @@ namespace IntegracaoBC.Infra.Dental021.Repositories
         }
     }
 }
+*/

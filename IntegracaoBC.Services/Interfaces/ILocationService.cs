@@ -7,5 +7,6 @@ namespace IntegracaoBC.Services.Interfaces
     {
         Task<IEnumerable<string>> Sync();
         Task<IEnumerable<string>> ClearAll();
+
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿/*
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,3 +13,4 @@ namespace IntegracaoBC.Services.Interfaces
         Task<IEnumerable<string>> ClearAll();
     }
 }
+*/

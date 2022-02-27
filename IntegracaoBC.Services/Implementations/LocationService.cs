@@ -10,7 +10,6 @@ namespace IntegracaoBC.Services.Implementations
 {
     public class LocationService : ILocationService
     {
-
         private readonly ILocationRepository _iLocationRepository;
         private readonly IConsultorioRepository _iConsultorioRepository;
         public LocationService(ILocationRepository iLocationRepository, IConsultorioRepository iConsultorioRepository)
@@ -18,6 +17,25 @@ namespace IntegracaoBC.Services.Implementations
             _iLocationRepository = iLocationRepository;
             _iConsultorioRepository = iConsultorioRepository;
         }
+        
+        public async Task<IEnumerable<string>> Sync()
+        {
+            List<string> _erros = new();
+
+            List<ConsultorioResponse> _consultorios = (List<ConsultorioResponse>)await _iConsultorioRepository.GetAll();
+            if (_consultorios.Count == 0)
+            {
+                _erros.Add("Não há consultórios cadastrados na base da 021 Dental");
+                return _erros;
+            }
+            List<LocationResponse> _locations = (List<LocationResponse>)await _iLocationRepository.GetAll();
+
+            await CompatilizaConsultorios(_consultorios, _locations, _erros);
+
+
+            return _erros;
+        }
+
 
         private void DesmembraEndereco(string endereco, ref string rua, ref string numero)
         {
@@ -57,29 +75,11 @@ namespace IntegracaoBC.Services.Implementations
             List<LocationResponse> _locations = (List<LocationResponse>)await _iLocationRepository.GetAll();
             foreach (var _location in _locations)
             {
-                if ((_retorno = await _iLocationRepository.Delete(_location.id)) != "OK")
+                if ((_retorno = await _iLocationRepository.Delete(_location.third_id)) != "OK")
                 {
                     _erros.Add(_retorno);
                 }
             }
-            return _erros;
-        }
-
-        public async Task<IEnumerable<string>> Sync()
-        {
-            List<string> _erros = new();
-
-            List<ConsultorioResponse> _consultorios = (List<ConsultorioResponse>)_iConsultorioRepository.GetAll();
-            if (_consultorios.Count == 0)
-            {
-                _erros.Add("Não há consultórios cadastrados na base da 021 Dental");
-                return _erros;
-            }
-            List<LocationResponse> _locations = (List<LocationResponse>)await _iLocationRepository.GetAll();
-
-            await CompatilizaConsultorios(_consultorios, _locations, _erros);
-
-
             return _erros;
         }
 
@@ -94,6 +94,8 @@ namespace IntegracaoBC.Services.Implementations
             string _numero = "";
             string _nomeBairro = "";
             string _nomeCidade = "";
+            long[] _vetConsultorios = new long[] {18, 36, 13, 41 };
+            consultorios = consultorios.Where(i => i.AtivoWeb == 1 && _vetConsultorios.Contains(i.Id)).ToList();
 
             // Compatibilizar
             foreach (var consultorio in consultorios.Where(i => i.AtivoWeb == 1))
@@ -105,13 +107,13 @@ namespace IntegracaoBC.Services.Implementations
 
                 if (long.TryParse(consultorio.BairroId, out _bairroId))
                 {
-                    var _bairro = _iConsultorioRepository.PegaBairro(_bairroId);
+                    var _bairro = await _iConsultorioRepository.PegaBairro(_bairroId);
                     _nomeBairro = _bairro == null ? _nomeBairro : _bairro.Nome.Trim().ToUpper();
                 }
 
                 if (long.TryParse(consultorio.CidadeId, out _cidadeId))
                 {
-                    var _cidade = _iConsultorioRepository.PegaCidade(_cidadeId);
+                    var _cidade = await _iConsultorioRepository.PegaCidade(_cidadeId);
                     _nomeCidade = _cidade == null ? _nomeCidade : _cidade.Nome.Trim().ToUpper();
                 }
 
@@ -197,6 +199,14 @@ namespace IntegracaoBC.Services.Implementations
                             erros.Add(_retorno);
                         }
                     }
+                }
+            }
+            foreach (var location in locations.Where(i => consultorios.Exists(c=>c.Id.ToString() == i.third_id) == false))
+            {
+                if ((_retorno = await _iLocationRepository.Delete(location.third_id)) != "OK")
+                {
+                    _retorno = $"[LocationId={location.name} deve ser excluida] => " + _retorno;
+                    erros.Add(_retorno);
                 }
             }
         }

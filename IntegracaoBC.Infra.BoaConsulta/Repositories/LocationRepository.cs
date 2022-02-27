@@ -12,13 +12,6 @@ using System.Threading.Tasks;
 
 namespace IntegracaoBC.Infra.BoaConsulta.Repositories
 {
-    public record retornoPadrao
-    {
-        public long total_count;
-        public long num_pages;
-        public List<LocationResponse> objects;
-    }
-
     public class LocationRepository : BaseRepository, ILocationRepository
     {
         public LocationRepository(IConfiguration iConfiguration, ILoginBoaConsultaRepository iLoginBoaConsultaRepository) : base(iConfiguration, iLoginBoaConsultaRepository) { }
@@ -32,7 +25,6 @@ namespace IntegracaoBC.Infra.BoaConsulta.Repositories
                     tokenAcesso = await _iLoginBoaConsultaRepository.Autoriza();
                 }
 
-
                 using var http = new HttpClient();
                 http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", tokenAcesso);
                 var url = new Uri(urlPadrao + "locations");
@@ -44,9 +36,10 @@ namespace IntegracaoBC.Infra.BoaConsulta.Repositories
                 {
                     throw new Exception($"Erro ao recuperar locations. [Msg={result.ReasonPhrase}] [Id=3001]");
                 }
-                var _retorno = JsonConvert.DeserializeObject<retornoPadrao>(resultContent);
+                var _retorno = JsonConvert.DeserializeObject<BoaConsultaResponse<LocationResponse>>(resultContent);
+                var _linhas = _retorno.objects;
 
-                return _retorno.objects;
+                return (IEnumerable<LocationResponse>)_retorno.objects;
             }
             catch
             {
