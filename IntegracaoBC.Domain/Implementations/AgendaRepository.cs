@@ -2,6 +2,7 @@
 using IntegracaoBC.Domain.Interfaces;
 using IntegracaoBC.Domain.Mappings;
 using IntegracaoBC.Provider.BoaConsulta;
+using Newtonsoft.Json;
 using System;
 using System.Threading.Tasks;
 
@@ -12,14 +13,38 @@ namespace IntegracaoBC.Infra.BoaConsulta.Repositories
 
         public AgendaRepository(IProviderBoaConsulta iProviderBoaConsulta) : base(iProviderBoaConsulta) { }
 
-        public Task<string> Create(NewAgendaRequest novo)
+        public async Task<string> Create(NewAgendaRequest novo)
         {
-            throw new NotImplementedException();
+            var _retorno = "OK";
+            try
+            {
+                var _jsonParam = JsonConvert.SerializeObject(novo);
+                await iProviderBoaConsulta.PostAsync(_jsonParam, "agendas");
+            }
+            catch (Exception e)
+            {
+                _retorno = $"Exception ao chamar new:doctors. [Error=21006] [Message={e.Message}";
+            }
+            return _retorno;
         }
 
-        public Task<AgendaResponse> Existe(string id)
+        public async Task<AgendaResponse> Existe(string id)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var _resp = await iProviderBoaConsulta.GetAsync($"agendas/{id}");
+                if (_resp == "Not.Found")
+                    return null;
+
+
+                var _retorno = JsonConvert.DeserializeObject<AgendaResponse>(_resp);
+                return _retorno;
+            }
+            catch
+            {
+                throw;
+            }
+
         }
 
         /*

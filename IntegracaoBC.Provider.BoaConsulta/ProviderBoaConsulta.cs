@@ -158,6 +158,9 @@ namespace IntegracaoBC.Provider.BoaConsulta
                 _http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", tokenAcesso);
                 var _response = _http.GetAsync(_uri).GetAwaiter().GetResult();
 
+                if (_response.StatusCode == HttpStatusCode.NotFound)
+                    return "Not.Found";
+
                 if (_response.StatusCode != HttpStatusCode.OK)
                 {
                     throw new Exception($"Erro na chamada a API({url}) . [HttpStatus={_response.StatusCode}, Mensagem={_response.ReasonPhrase}]");

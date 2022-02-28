@@ -35,9 +35,10 @@ namespace IntegracaoBC.EndPoints
             services.AddSingleton<ISpecialtyService, SpecialtyService>();
             services.AddSingleton<IEspecialidadeAgendaService, EspecialidadeAgendaService>();
 
+            services.AddSingleton<IAgendaRepository, AgendaRepository>();
             services.AddSingleton<IConsultorioRepository, ConsultorioRepository>();
-            
-            //services.AddSingleton<IAgendaRepository, AgendaRepository>();
+            services.AddSingleton<IConvenioRepository, ConvenioRepository>();
+                        
             //services.AddSingleton<IDentistaRepository, DentistaRepository>();
             services.AddSingleton<IDoctorRepository, DoctorRepository>();
             services.AddSingleton<IEspecialidadeAgendaRepository, EspecialidadeAgendaRepository>();
