@@ -24,6 +24,8 @@ namespace IntegracaoBC.Domain.Mappings
         public string license_council { get; set; }
         public string license_state { get; set; }
         public string license { get; set; }
+        public List<Reason> reasons { get; set; }
+        public List<Agenda> agendas { get; set; }
 
         //public string cpf { get; set; }
         //public string phone { get; set; }
@@ -37,7 +39,6 @@ namespace IntegracaoBC.Domain.Mappings
     public class NewDoctorRequest : UpdateDoctorRequest
     {
         public string id { get; set; }
-        public List<Reason> reasons { get; set; }
         //public List<Agenda> agendas { get; set; }
     }
 

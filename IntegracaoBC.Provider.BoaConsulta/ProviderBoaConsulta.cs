@@ -112,7 +112,7 @@ namespace IntegracaoBC.Provider.BoaConsulta
         }
         public async Task<string> PutAsync(string jsonParams, string url)
         {
-            return await CommandAsync(EnumCommand.Post, jsonParams, url);
+            return await CommandAsync(EnumCommand.Put, jsonParams, url);
         }
         public async Task<string> DeleteAsync(string url)
         {

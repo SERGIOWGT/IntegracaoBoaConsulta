@@ -1,5 +1,4 @@
-﻿/*
-// https://admin-integracao.boaconsulta.dev/api/v3/i/doc#!/settings/postSettingsWebhooks
+﻿// https://admin-integracao.boaconsulta.dev/api/v3/i/doc#!/settings/postSettingsWebhooks
 // thirdsystem  bcteste
 
 
@@ -17,70 +16,78 @@ namespace IntegracaoBC.Services.Implementations
 {
     public class AgendaService : IAgendaService
     {
+
+        private record EspecialidadeReason
+        {
+            public long EspecialidadeId;
+            public List<string> Reasons;
+        }
+
+
+        private record DentistaReason : DentistaResponse
+        {
+            public List<string> Reasons;
+        }
+
+
+        private readonly IEspecialidadeAgendaRepository _iEspecialidadeAgendaRepository;
+        private readonly IExpedienteDentistaRepository _iExpedienteRepository;
         private readonly IDoctorRepository _iDoctorRepository;
+
+        public AgendaService(IDoctorRepository iDoctorRepository, IExpedienteDentistaRepository iExpedienteRepository, IEspecialidadeAgendaRepository iEspecialidadeAgendaRepository)
+        {
+            _iExpedienteRepository = iExpedienteRepository;
+            _iDoctorRepository = iDoctorRepository;
+            _iEspecialidadeAgendaRepository = iEspecialidadeAgendaRepository;
+        }
+
+        /*
+
         private readonly IAgendaRepository _iAgendaRepository;
         private readonly IExpedienteDentistaRepository _iExpedienteRepository;
-        private readonly IWorkScheduleRepository _iWorkScheduleRepository;
-        public AgendaService(IDoctorRepository iDoctorRepository, IExpedienteDentistaRepository iExpedienteRepository, IAgendaRepository iAgendaRepository, IWorkScheduleRepository iWorkScheduleRepository)
+        public AgendaService(IDoctorRepository iDoctorRepository, IExpedienteDentistaRepository iExpedienteRepository, IAgendaRepository iAgendaRepository)
         {
             _iExpedienteRepository = iExpedienteRepository;
             _iDoctorRepository = iDoctorRepository;
             _iAgendaRepository = iAgendaRepository;
-            _iWorkScheduleRepository = iWorkScheduleRepository;
         }
-
-        public Task<IEnumerable<string>> ClearAll()
-        {
-            throw new NotImplementedException();
-        }
+        */
 
         public async Task<IEnumerable<string>> Sync()
         {
 
-            // reasons
-            //55e9bcae3242696a7d000036 == > Dentista (Clínico Geral)
-            //5769504a12953948870006fc ==> Dentista (Dentística) - clareamento dental
-            //57e5ec3893e2cb4834000001 ==> Dentista (Dentística) - atendimento geral (rotina)
-            //5772d6e712953925600002b4 ==> Dentista (Dentística) - Restauração Dental
-
-
+            
             List<string> _erros = new();
 
-            List<ExpedienteDentistaAtivosResponse> _dentistasExpedientes = (List<ExpedienteDentistaAtivosResponse>)_iExpedienteRepository.ListaAtivos();
+            List<ExpedienteDentistaAtivosResponse> _dentistasExpedientes = (List<ExpedienteDentistaAtivosResponse>) await _iExpedienteRepository.ListaAtivos();
             if (_dentistasExpedientes.Count == 0)
             {
                 _erros.Add("Não há expedientes cadastrados na base da 021 Dental");
                 return _erros;
             }
 
-            // 1o. syncroniza todos os doctors
-            List<DentistaResponse> _dentistas = new();
-            foreach (var _dentistaExpediente in _dentistasExpedientes.Where(x => x.Status == StatusEnum.Ativo && x.Dentista.Status == StatusEnum.Ativo && x.Expediente.ConsultorioId == 18 && x.Expediente.EspecialidadeAgendaId == 1))
+            // 1o. Pegas todas as agendas
+            _dentistasExpedientes = _dentistasExpedientes.Where(x => x.Status == StatusEnum.Ativo && x.Dentista.Status == StatusEnum.Ativo && x.Expediente.ConsultorioId == 18 && x.Expediente.EspecialidadeAgendaId == 1).ToList();
+
+
+            var _dentistasAtivos = await montaListaDentistas(_dentistasExpedientes);
+
+
+            // Inclui os dentitas
+            foreach (var _dentista in _dentistasAtivos)
             {
 
-                if (_dentistas.FindIndex(x => x.Id == _dentistaExpediente.Dentista.Id) == -1)
+                var _reasons = new List<Reason>();
+                foreach (var _reasonId in _dentista.Reasons)
                 {
-                    _dentistas.Add(new DentistaResponse()
-                    {
-                        Id = _dentistaExpediente.Dentista.Id,
-                        Nome = _dentistaExpediente.Dentista.Nome,
-                        Cro = _dentistaExpediente.Dentista.Cro,
-                        CroUF = _dentistaExpediente.Dentista.CroUF,
-                        Status = _dentistaExpediente.Dentista.Status
-                    });
+                    _reasons.Add(new Reason() { id = _reasonId, rqe = null });
                 }
-            }
 
-            foreach (var _dentista in _dentistas)
-            {
+
+
                 DoctorResponse _doctor = await _iDoctorRepository.Existe(_dentista.Id);
-
                 if (_doctor == null)
                 {
-                    // não - novo
-                    var _resons = new List<Reason>();
-                    _resons.Add(new Reason() { id = "55e9bcae3242696a7d000035", rqe = null });
-
                     var _newDoctor = new NewDoctorRequest()
                     {
                         id = _dentista.Id.ToString(),
@@ -88,7 +95,7 @@ namespace IntegracaoBC.Services.Implementations
                         license_council = "CRO",
                         license_state = _dentista.CroUF == "" ? "RJ" : _dentista.CroUF,
                         license = _dentista.Cro,
-                        reasons = _resons
+                        reasons = _reasons
                     };
                     var _retorno = "";
                     try
@@ -99,7 +106,7 @@ namespace IntegracaoBC.Services.Implementations
                     {
                         _retorno = e.Message;
                     }
-                    if (_retorno != "")
+                    if (_retorno != "OK")
                         _erros.Add(_retorno);
 
                 }
@@ -110,7 +117,8 @@ namespace IntegracaoBC.Services.Implementations
                         name = _dentista.Nome,
                         license_council = "CRO",
                         license_state = _dentista.CroUF == "" ? "RJ" : _dentista.CroUF,
-                        license = _dentista.Cro
+                        license = _dentista.Cro,
+                        reasons = _reasons
                     };
                     // NAO ESTÁ FUNCIONANDO
                     var _retorno = "";
@@ -122,13 +130,16 @@ namespace IntegracaoBC.Services.Implementations
                     {
                         _retorno = e.Message;
                     }
-                    if (_retorno != "")
+                    if (_retorno != "OK")
                         _erros.Add(_retorno);
                 }
-
             }
 
+            //  Pegar os convenios dos consultórios
 
+
+            // Incluir as agendas
+            /*
             var _consultorios = _dentistasExpedientes.Where(x => x.Status == StatusEnum.Ativo && x.Expediente.ConsultorioId == 18 && x.Expediente.EspecialidadeAgendaId == 1).Select(x => x.Expediente.ConsultorioId).Distinct();
             foreach (var _consultorio in _consultorios)
             {
@@ -177,32 +188,10 @@ namespace IntegracaoBC.Services.Implementations
 
                         }
                     }
-
-                    // Inclui o work_schedule
-                    var _newWorkSchedule = new NewWorkScheduleRequest()
-                    {
-                        id = _dentistaConsultorio.Id.ToString(),
-                        start_date = _dentistaConsultorio.DataInicioAtividade.ToString("yyyy-MM-dd"),
-                        end_date = _dentistaConsultorio.DataInicioAtividade.AddMonths(6).ToString("yyyy-MM-dd"),
-                        start_time = _dentistaConsultorio.Expediente.HoraInicio.Substring(0, 5),
-                        end_time = _dentistaConsultorio.Expediente.HoraFim.Substring(0, 5),
-                        duration = 20,
-                        weekdays = ToEnglish(_dentistaConsultorio.Expediente.DiaSemana)
-                    };
-                    var _retorno = "";
-                    try
-                    {
-                        _retorno = await _iWorkScheduleRepository.Create(_agendaId, _newWorkSchedule);
-                    }
-                    catch (Exception e)
-                    {
-                        _retorno = e.Message;
-                    }
-                    if (_retorno != "OK")
-                        _erros.Add(_retorno);
                 }
 
             }
+            */
             return _erros;
         }
         private string ToEnglish(int workday)
@@ -214,6 +203,80 @@ namespace IntegracaoBC.Services.Implementations
                     workday == 4 ? "thusrday" :
                     workday == 5 ? "friday" : "saturday";
         }
+
+        private async Task<List<EspecialidadeReason>> montaListaEspecialidadeReason(List<long> especialidadesAgenda)
+        {
+            var _retorno = new List<EspecialidadeReason>();
+            var _especialidadesAgenda = (List<EspecialidadeAgendaResponse>)await _iEspecialidadeAgendaRepository.GetAll();
+
+            foreach (var _especialidadeAgenda in especialidadesAgenda)
+            {
+                var _novo = new EspecialidadeReason();
+                _novo.EspecialidadeId = _especialidadeAgenda;
+                _novo.Reasons = new();
+
+                var _reasons = _especialidadesAgenda.FindAll(x => x.Id == _especialidadeAgenda);
+                foreach (var _reason in _reasons)
+                {
+                    _novo.Reasons.Add(_reason.ReasonId);
+                }
+                _retorno.Add(_novo);
+            }
+
+
+            return _retorno;
+        }
+
+
+        private async Task<List<DentistaReason>> montaListaDentistas(List<ExpedienteDentistaAtivosResponse> expedientesAtivos)
+        {
+            var _especialidadesReason = await montaListaEspecialidadeReason(expedientesAtivos.Select(x => x.Expediente.EspecialidadeAgendaId).Distinct().ToList());
+
+            List<DentistaReason> _dentistas = new();
+
+
+            long _dentistaOld = 0;
+            foreach (var _dentistaExpediente in expedientesAtivos.OrderBy(x => x.Dentista.Id))
+            {
+
+                if (_dentistaOld != _dentistaExpediente.Dentista.Id)
+                {
+                    _dentistas.Add(new DentistaReason()
+                    {
+                        Id = _dentistaExpediente.Dentista.Id,
+                        Nome = _dentistaExpediente.Dentista.Nome,
+                        Cro = _dentistaExpediente.Dentista.Cro,
+                        CroUF = _dentistaExpediente.Dentista.CroUF,
+                        Status = _dentistaExpediente.Dentista.Status,
+                        Reasons = new List<string>()
+                    });
+                    _dentistaOld = _dentistaExpediente.Dentista.Id;
+                }
+            }
+
+
+            foreach (var _dentista in _dentistas)
+            {
+                var _especialidades = expedientesAtivos.FindAll(x => x.Dentista.Id == _dentista.Id).Select(x => x.Expediente.EspecialidadeAgendaId).Distinct().ToList();
+                foreach (var _especialidade in _especialidades)
+                {
+                    var _aux = _especialidadesReason.Find(x => x.EspecialidadeId == _especialidade);
+                    if (_aux != null)
+                    {
+                        foreach (var _reason in _aux.Reasons)
+                        {
+                            _dentista.Reasons.Add(_reason);
+                        }
+                    }
+                }
+            }
+
+            return _dentistas;
+        }
+
+
+        
+
+
     }
 }
-*/

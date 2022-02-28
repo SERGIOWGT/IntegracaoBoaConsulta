@@ -1,43 +1,29 @@
-﻿/*
-using IntegracaoBC.Domain.Interfaces;
+﻿using IntegracaoBC.Domain.Interfaces;
 using IntegracaoBC.Domain.Mappings;
-using Microsoft.Extensions.Configuration;
+using IntegracaoBC.Provider.Dental021;
 using Newtonsoft.Json;
-using System;
 using System.Collections.Generic;
-using System.Net;
-using System.Net.Http;
+using System.Threading.Tasks;
 
 namespace IntegracaoBC.Infra.Dental021.Repositories
 {
-    public class ExpedienteDentistaRepository : BaseRepository2, IExpedienteDentistaRepository
+    public class ExpedienteDentistaRepository : BaseD021Repository, IExpedienteDentistaRepository
     {
-        public ExpedienteDentistaRepository(IConfiguration iConfiguration) : base(iConfiguration) { }
+        public ExpedienteDentistaRepository(IProvider021Dental iProvider) : base(iProvider) { }
 
-        public IEnumerable<ExpedienteDentistaAtivosResponse> ListaAtivos()
+        public async Task<IEnumerable<ExpedienteDentistaAtivosResponse>> ListaAtivos()
         {
             try
             {
-                using var http = new HttpClient();
-                http.DefaultRequestHeaders.Add("token", token);
-                var url = new Uri(urlPadrao + "ExpedientesDentistas/ListaCompletaAtivos/?usuarioId=1");
-                var result = http.GetAsync(url).GetAwaiter().GetResult();
-
-                var resultContent = result.Content.ReadAsStringAsync().GetAwaiter().GetResult();
-
-                if (result.StatusCode != HttpStatusCode.OK)
-                {
-                    throw new Exception($"Erro ao recuperar dentistas. [Msg={result.ReasonPhrase}] [Id=3001]");
-                }
-                var _retorno = JsonConvert.DeserializeObject<IEnumerable<ExpedienteDentistaAtivosResponse>>(resultContent);
+                var _resp = await iProvider.GetAsync("ExpedientesDentistas/ListaCompletaAtivos/?usuarioId=1");
+                var _retorno = JsonConvert.DeserializeObject<IEnumerable<ExpedienteDentistaAtivosResponse>>(_resp);
 
                 return _retorno;
             }
             catch
             {
                 throw;
-            };
+            }
         }
     }
 }
-*/

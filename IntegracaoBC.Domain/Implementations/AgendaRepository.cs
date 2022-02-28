@@ -1,17 +1,28 @@
-﻿/*
+﻿using IntegracaoBC.Domain.Implementations;
 using IntegracaoBC.Domain.Interfaces;
 using IntegracaoBC.Domain.Mappings;
+using IntegracaoBC.Provider.BoaConsulta;
 using System;
-using System.Net;
-using System.Net.Http;
-using System.Net.Http.Headers;
 using System.Threading.Tasks;
 
 namespace IntegracaoBC.Infra.BoaConsulta.Repositories
 {
-    public class AgendaRepository : BaseRepository, IAgendaRepository
+    public class AgendaRepository : BaseBoaConsultaRepository, IAgendaRepository
     {
-        public AgendaRepository(IConfiguration iConfiguration, ILoginBoaConsultaRepository iLoginBoaConsultaRepository) : base(iConfiguration, iLoginBoaConsultaRepository) { }
+
+        public AgendaRepository(IProviderBoaConsulta iProviderBoaConsulta) : base(iProviderBoaConsulta) { }
+
+        public Task<string> Create(NewAgendaRequest novo)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<AgendaResponse> Existe(string id)
+        {
+            throw new NotImplementedException();
+        }
+
+        /*
 
         public async Task<string> Create(NewAgendaRequest novo)
         {
@@ -60,7 +71,6 @@ namespace IntegracaoBC.Infra.BoaConsulta.Repositories
                 throw;
             }
         }
+        */
     }
 }
-
-*/

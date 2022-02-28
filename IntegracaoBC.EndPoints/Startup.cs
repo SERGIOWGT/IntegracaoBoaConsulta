@@ -30,26 +30,24 @@ namespace IntegracaoBC.EndPoints
             services.AddSingleton<IProviderBoaConsulta, ProviderBoaConsulta>();
             services.AddSingleton<IProvider021Dental, Provider021Dental>();
 
+            services.AddSingleton<IAgendaService, AgendaService>();
             services.AddSingleton<ILocationService, LocationService>();
             services.AddSingleton<ISpecialtyService, SpecialtyService>();
             services.AddSingleton<IEspecialidadeAgendaService, EspecialidadeAgendaService>();
 
             services.AddSingleton<IConsultorioRepository, ConsultorioRepository>();
-            //services.AddSingleton<IAgendaService, AgendaService>();
+            
             //services.AddSingleton<IAgendaRepository, AgendaRepository>();
             //services.AddSingleton<IDentistaRepository, DentistaRepository>();
-            //services.AddSingleton<IDoctorRepository, DoctorRepository>();
+            services.AddSingleton<IDoctorRepository, DoctorRepository>();
             services.AddSingleton<IEspecialidadeAgendaRepository, EspecialidadeAgendaRepository>();
             services.AddSingleton<ILocationRepository, LocationRepository>();
             services.AddSingleton<ISpecialtyRepository, SpecialtyRepository>();
             services.AddSingleton<IReasonRepository, ReasonRepository>();
+            services.AddSingleton<IExpedienteDentistaRepository, ExpedienteDentistaRepository>();
 
 
-
-
-            //services.AddSingleton<IExpedienteDentistaRepository, ExpedienteDentistaRepository>();
             //services.AddSingleton<ILoginBoaConsultaRepository, LoginBoaConsultaRepository>();
-            //services.AddSingleton<IWorkScheduleRepository, WorkScheduleRepository>();
 
             services.AddCors();
             services.AddMvc();

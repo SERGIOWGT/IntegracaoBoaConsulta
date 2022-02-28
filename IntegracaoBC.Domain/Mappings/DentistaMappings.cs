@@ -3,7 +3,7 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace IntegracaoBC.Domain.Mappings
 {
-    public class DentistaResponse
+    public record DentistaResponse
     {
         public long Id { get; set; }
         public string Nome { get; set; }
