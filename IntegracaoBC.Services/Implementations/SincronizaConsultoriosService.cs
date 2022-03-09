@@ -8,17 +8,17 @@ using System.Threading.Tasks;
 
 namespace IntegracaoBC.Services.Implementations
 {
-    public class LocationService : ILocationService
+    public class SincronizaConsultoriosService : ISincronizaConsultoriosService
     {
         private readonly ILocationRepository _iLocationRepository;
         private readonly IConsultorioRepository _iConsultorioRepository;
-        public LocationService(ILocationRepository iLocationRepository, IConsultorioRepository iConsultorioRepository)
+        public SincronizaConsultoriosService(ILocationRepository iLocationRepository, IConsultorioRepository iConsultorioRepository)
         {
             _iLocationRepository = iLocationRepository;
             _iConsultorioRepository = iConsultorioRepository;
         }
-        
-        public async Task<IEnumerable<string>> Sync()
+
+        public async Task<IEnumerable<string>> Executa()
         {
             List<string> _erros = new();
 
@@ -35,7 +35,6 @@ namespace IntegracaoBC.Services.Implementations
 
             return _erros;
         }
-
 
         private void DesmembraEndereco(string endereco, ref string rua, ref string numero)
         {
@@ -66,25 +65,8 @@ namespace IntegracaoBC.Services.Implementations
             }
         }
 
-        public async Task<IEnumerable<string>> ClearAll()
-        {
-            List<string> _erros = new();
-            string _retorno;
 
-
-            List<LocationResponse> _locations = (List<LocationResponse>)await _iLocationRepository.GetAll();
-            foreach (var _location in _locations)
-            {
-                if ((_retorno = await _iLocationRepository.Delete(_location.third_id)) != "OK")
-                {
-                    _erros.Add(_retorno);
-                }
-            }
-            return _erros;
-        }
-
-
-        public async Task CompatilizaConsultorios(List<ConsultorioResponse> consultorios, List<LocationResponse> locations, List<String> erros)
+        private async Task CompatilizaConsultorios(List<ConsultorioResponse> consultorios, List<LocationResponse> locations, List<String> erros)
         {
             long _bairroId = 0;
             long _cidadeId = 0;
@@ -94,8 +76,9 @@ namespace IntegracaoBC.Services.Implementations
             string _numero = "";
             string _nomeBairro = "";
             string _nomeCidade = "";
-            long[] _vetConsultorios = new long[] {18, 36, 13, 41 };
-            consultorios = consultorios.Where(i => i.AtivoWeb == 1 && _vetConsultorios.Contains(i.Id)).ToList();
+
+            //long[] _vetConsultorios = new long[] {18, 36, 13, 41 };
+            //consultorios = consultorios.Where(i => i.AtivoWeb == 1 && _vetConsultorios.Contains(i.Id)).ToList();
 
             // Compatibilizar
             foreach (var consultorio in consultorios.Where(i => i.AtivoWeb == 1))
@@ -201,7 +184,7 @@ namespace IntegracaoBC.Services.Implementations
                     }
                 }
             }
-            foreach (var location in locations.Where(i => consultorios.Exists(c=>c.Id.ToString() == i.third_id) == false))
+            foreach (var location in locations.Where(i => consultorios.Exists(c => c.Id.ToString() == i.third_id) == false))
             {
                 if ((_retorno = await _iLocationRepository.Delete(location.third_id)) != "OK")
                 {

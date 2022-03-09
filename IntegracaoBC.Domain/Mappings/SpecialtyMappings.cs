@@ -8,8 +8,6 @@
         public GroupSpecialtyResponse group { get; set; }
     }
 
-
-
     public record SpecialtyDeparaResponse
     {
         public string id { get; set; }

@@ -7,19 +7,19 @@ using System.Linq;
 
 namespace IntegracaoBC.Services.Implementations
 {
-    public class SpecialtyService : ISpecialtyService
+    public class ListaSpecialtyService : IListaSpecialtyService
     {
 
         private readonly ISpecialtyRepository _iSpecialtyRepository;
         private readonly IReasonRepository _iReasonRepository;
-        public SpecialtyService(ISpecialtyRepository iSpecialtyRepository, IReasonRepository iReasonRepository)
+        public ListaSpecialtyService(ISpecialtyRepository iSpecialtyRepository, IReasonRepository iReasonRepository)
         {
             _iSpecialtyRepository = iSpecialtyRepository;
             _iReasonRepository = iReasonRepository;
         }
 
 
-        public async Task<IEnumerable<SpecialtyCompleteResponse>> GetAll()
+        public async Task<IEnumerable<SpecialtyCompleteResponse>> Executa()
         {
             List<SpecialtyCompleteResponse> _retorno = new();
 

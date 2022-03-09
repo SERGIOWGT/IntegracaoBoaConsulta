@@ -4,8 +4,8 @@ using System.Threading.Tasks;
 
 namespace IntegracaoBC.Services.Interfaces
 {
-    public interface IEspecialidadeAgendaService
+    public interface IListaSpecialtyService
     {
-        Task<IEnumerable<EspecialidadeAgendaResponse>> GetAll();
+        Task<IEnumerable<SpecialtyCompleteResponse>> Executa();
     }
 }

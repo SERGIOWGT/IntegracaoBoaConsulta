@@ -7,19 +7,19 @@ using System.Linq;
 
 namespace IntegracaoBC.Services.Implementations
 {
-    public class EspecialidadeAgendaService : IEspecialidadeAgendaService
+    public class ListaEspecialidadeAgendaService : IListaEspecialidadeAgendaService
     {
 
         private readonly IEspecialidadeAgendaRepository _iEspecialidadeAgendaRepository;
         private readonly IReasonRepository _iReasonRepository;
-        public EspecialidadeAgendaService(IEspecialidadeAgendaRepository iEspecialidadeAgendaRepository, IReasonRepository iReasonRepository)
+        public ListaEspecialidadeAgendaService(IEspecialidadeAgendaRepository iEspecialidadeAgendaRepository, IReasonRepository iReasonRepository)
         {
             _iEspecialidadeAgendaRepository = iEspecialidadeAgendaRepository;
             _iReasonRepository = iReasonRepository;
         }
 
 
-        public async Task<IEnumerable<EspecialidadeAgendaResponse>> GetAll()
+        public async Task<IEnumerable<EspecialidadeAgendaResponse>> Executa()
         {
             var _especialidadesAgenda = (List<EspecialidadeAgendaResponse>)await _iEspecialidadeAgendaRepository.GetAll();
 

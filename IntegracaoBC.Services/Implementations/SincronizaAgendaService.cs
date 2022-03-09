@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 
 namespace IntegracaoBC.Services.Implementations
 {
-    public class AgendaService : IAgendaService
+    public class SincronizaAgendaService : ISincronizaAgendaService
     {
 
         private record ConsultorioConvenio
@@ -39,15 +39,21 @@ namespace IntegracaoBC.Services.Implementations
 
 
         private readonly IEspecialidadeAgendaRepository _iEspecialidadeAgendaRepository;
-        private readonly IExpedienteDentistaRepository _iExpedienteRepository;
+        private readonly IExpedienteDentistaRepository _iExpedienteDentistaRepository;
         private readonly IDoctorRepository _iDoctorRepository;
         private readonly IConsultorioRepository _iConsultorioRepository;
         private readonly IConvenioRepository _iConvenioRepository;
         private readonly IAgendaRepository _iAgendaRepository;
 
-        public AgendaService(IDoctorRepository iDoctorRepository, IExpedienteDentistaRepository iExpedienteRepository, IEspecialidadeAgendaRepository iEspecialidadeAgendaRepository, IConsultorioRepository iConsultorioRepository, IConvenioRepository iConvenioRepository, IAgendaRepository iAgendaRepository)
+        public SincronizaAgendaService(
+            IDoctorRepository iDoctorRepository, 
+            IExpedienteDentistaRepository iExpedienteDentistaRepository, 
+            IEspecialidadeAgendaRepository iEspecialidadeAgendaRepository, 
+            IConsultorioRepository iConsultorioRepository, 
+            IConvenioRepository iConvenioRepository, 
+            IAgendaRepository iAgendaRepository)
         {
-            _iExpedienteRepository = iExpedienteRepository;
+            _iExpedienteDentistaRepository = iExpedienteDentistaRepository;
             _iDoctorRepository = iDoctorRepository;
             _iEspecialidadeAgendaRepository = iEspecialidadeAgendaRepository;
             _iConsultorioRepository = iConsultorioRepository;
@@ -55,23 +61,11 @@ namespace IntegracaoBC.Services.Implementations
             _iAgendaRepository = iAgendaRepository;
         }
 
-        /*
-
-        private readonly IAgendaRepository _iAgendaRepository;
-        private readonly IExpedienteDentistaRepository _iExpedienteRepository;
-        public AgendaService(IDoctorRepository iDoctorRepository, IExpedienteDentistaRepository iExpedienteRepository, IAgendaRepository iAgendaRepository)
-        {
-            _iExpedienteRepository = iExpedienteRepository;
-            _iDoctorRepository = iDoctorRepository;
-            _iAgendaRepository = iAgendaRepository;
-        }
-        */
-
-        public async Task<IEnumerable<string>> Sync()
+        public async Task<IEnumerable<string>> Executa()
         {
             List<string> _erros = new();
 
-            List<ExpedienteDentistaAtivosResponse> _dentistasExpedientes = (List<ExpedienteDentistaAtivosResponse>) await _iExpedienteRepository.ListaAtivos();
+            List<ExpedienteDentistaAtivosResponse> _dentistasExpedientes = (List<ExpedienteDentistaAtivosResponse>) await _iExpedienteDentistaRepository.ListaAtivos();
             if (_dentistasExpedientes.Count == 0)
             {
                 _erros.Add("Não há expedientes cadastrados na base da 021 Dental");
@@ -79,15 +73,14 @@ namespace IntegracaoBC.Services.Implementations
             }
 
             // 1o. Pegas todas as agendas
-            _dentistasExpedientes = _dentistasExpedientes.Where(x => x.Status == StatusEnum.Ativo && x.Dentista.Status == StatusEnum.Ativo && x.Expediente.ConsultorioId == 18 && x.Expediente.EspecialidadeAgendaId == 1).ToList();
-
+            //_dentistasExpedientes = _dentistasExpedientes.Where(x => x.Status == StatusEnum.Ativo && x.Dentista.Status == StatusEnum.Ativo && x.Expediente.ConsultorioId == 18 && x.Expediente.EspecialidadeAgendaId == 1).ToList();
+            _dentistasExpedientes = _dentistasExpedientes.Where(x => x.Status == StatusEnum.Ativo && x.Dentista.Status == StatusEnum.Ativo && x.Expediente.EspecialidadeAgendaId == 1).ToList();
 
             // Monta a lista de Dentistas
             var _dentistasAgenda = await montaListaDentistas(_dentistasExpedientes);
 
             // Monta a lista de Consultorios (com convenios)
             var _consultoriosAgenda = await montaListaConsultoriosAgenda(_dentistasExpedientes);
-
 
             // Inclui os dentistas
             foreach (var _dentista in _dentistasAgenda)
@@ -97,8 +90,6 @@ namespace IntegracaoBC.Services.Implementations
                 {
                     _reasons.Add(new Reason() { id = _reasonId, rqe = null });
                 }
-
-
 
                 DoctorResponse _doctor = await _iDoctorRepository.Existe(_dentista.Id);
                 if (_doctor == null)
@@ -158,9 +149,9 @@ namespace IntegracaoBC.Services.Implementations
 
                 foreach (var _dentistaConsultorio in _dentistasConsultorio)
                 {
-                    Console.WriteLine($"{_dentistaConsultorio.Expediente.ConsultorioId} => {_dentistaConsultorio.Dentista.Id} {_dentistaConsultorio.Dentista.Nome} => {_dentistaConsultorio.Expediente.DiaSemana} ");
-
-                    var _agendaId = $"{_consultorio.Id}_{_dentistaConsultorio.Dentista.Id}";
+                    var _agendaId = $"{_dentistaConsultorio.Expediente.Id}_{_consultorio.Id}_{_dentistaConsultorio.Dentista.Id}";
+                    Console.WriteLine($"{_agendaId} ==> {_dentistaConsultorio.Expediente.ConsultorioId} => {_dentistaConsultorio.Dentista.Id} {_dentistaConsultorio.Dentista.Nome} => {_dentistaConsultorio.Expediente.DiaSemana} ");
+                    
                     if (_dentistaAnterior != _dentistaConsultorio.Dentista.Id)
                     {
                         _dentistaAnterior = _dentistaConsultorio.Dentista.Id;
@@ -180,7 +171,7 @@ namespace IntegracaoBC.Services.Implementations
                                 id = _agendaId,
                                 doctor_id = _dentistaConsultorio.Dentista.Id.ToString(),
                                 location_id = _dentistaConsultorio.Expediente.ConsultorioId.ToString(),
-                                private_appointment_price = 150.00,
+                                private_appointment_price = 50.00,
                                 first_appointment_free = false,
                                 active = true,
                                 health_carriers = _healthCarriers
@@ -207,6 +198,7 @@ namespace IntegracaoBC.Services.Implementations
             }
             return _erros;
         }
+
         private string ToEnglish(int workday)
         {
             return workday == 0 ? "sunday" :
@@ -239,7 +231,6 @@ namespace IntegracaoBC.Services.Implementations
 
             return _retorno;
         }
-
 
         private async Task<List<DentistaReason>> montaListaDentistas(List<ExpedienteDentistaAtivosResponse> expedientesAtivos)
         {
@@ -332,5 +323,7 @@ namespace IntegracaoBC.Services.Implementations
             }
             return _retorno;
         }
+
+      
     }
 }

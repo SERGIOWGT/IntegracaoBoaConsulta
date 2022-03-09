@@ -36,6 +36,9 @@ namespace IntegracaoBC.Infra.BoaConsulta.Repositories
             try
             {
                 var _resp = await iProviderBoaConsulta.GetAsync($"doctors/{id}");
+                if (_resp.ToUpper() == "NOT.FOUND")
+                    return null;
+
                 var _retorno = JsonConvert.DeserializeObject<DoctorResponse>(_resp);
 
 

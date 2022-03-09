@@ -3,8 +3,8 @@ using System.Threading.Tasks;
 
 namespace IntegracaoBC.Services.Interfaces
 {
-    public interface IAgendaService
+    public interface ISincronizaConsultoriosService
     {
-        Task<IEnumerable<string>> Sync();
+        Task<IEnumerable<string>> Executa();
     }
 }

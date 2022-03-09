@@ -33,4 +33,6 @@ namespace IntegracaoBC.Domain.Mappings
         public Boolean first_appointment_free { get; set; }
         public Boolean active { get; set; }
     }
+
+    
 }

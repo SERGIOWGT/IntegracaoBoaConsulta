@@ -3,10 +3,8 @@ using System.Threading.Tasks;
 
 namespace IntegracaoBC.Services.Interfaces
 {
-    public interface ILocationService
+    public interface ISincronizaAgendaService
     {
-        Task<IEnumerable<string>> Sync();
-        Task<IEnumerable<string>> ClearAll();
-
+        Task<IEnumerable<string>> Executa();
     }
 }
