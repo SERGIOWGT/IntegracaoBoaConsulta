@@ -1,7 +1,7 @@
 ﻿using IntegracaoBC.Domain.Implementations;
 using IntegracaoBC.Domain.Interfaces;
 using IntegracaoBC.Domain.Mappings;
-using IntegracaoBC.Provider.BoaConsulta;
+using IntegracaoBC.Providers.Interfaces;
 using Newtonsoft.Json;
 using System;
 using System.Threading.Tasks;
@@ -19,7 +19,11 @@ namespace IntegracaoBC.Infra.BoaConsulta.Repositories
             try
             {
                 var _jsonParam = JsonConvert.SerializeObject(novo);
-                await iProviderBoaConsulta.PostAsync(_jsonParam, "agendas");
+                var _resp = await iProviderBoaConsulta.PostAsync(_jsonParam, "agendas");
+
+                if (_resp.Sucesso == false)
+                    _retorno = _resp.Resultado;
+
             }
             catch (Exception e)
             {
@@ -33,11 +37,14 @@ namespace IntegracaoBC.Infra.BoaConsulta.Repositories
             try
             {
                 var _resp = await iProviderBoaConsulta.GetAsync($"agendas/{id}");
-                if (_resp == "Not.Found")
+                if (_resp.CodigoHttp == System.Net.HttpStatusCode.NotFound)
                     return null;
 
+                if (_resp.Sucesso == false)
+                    throw new Exception(_resp.Resultado);
 
-                var _retorno = JsonConvert.DeserializeObject<AgendaResponse>(_resp);
+
+                var _retorno = JsonConvert.DeserializeObject<AgendaResponse>(_resp.Resultado);
                 return _retorno;
             }
             catch
@@ -47,55 +54,6 @@ namespace IntegracaoBC.Infra.BoaConsulta.Repositories
 
         }
 
-        /*
-
-        public async Task<string> Create(NewAgendaRequest novo)
-        {
-            string _mensagemPadrao = $"Erro post:agenda.";
-            string _url = urlPadrao + $"agendas";
-            string _jsonParams = JsonConvert.SerializeObject(novo);
-
-            if (tokenAcesso == "")
-            {
-                tokenAcesso = await _iLoginBoaConsultaRepository.Autoriza();
-            }
-
-            return await PostNew(tokenAcesso, _url, _jsonParams, _mensagemPadrao);
-        }
-        public async Task<AgendaResponse> Existe(string id)
-        {
-            string _mensagemPadrao = $"Erro get:agenda. [Id={id}]";
-            try
-            {
-                if (tokenAcesso == "")
-                {
-                    tokenAcesso = await _iLoginBoaConsultaRepository.Autoriza();
-                }
-
-
-                using var http = new HttpClient();
-                http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", tokenAcesso);
-                var url = new Uri(urlPadrao + $"agendas/{id}");
-                var result = http.GetAsync(url).GetAwaiter().GetResult();
-
-                var resultContent = result.Content.ReadAsStringAsync().GetAwaiter().GetResult();
-
-                if (result.StatusCode != HttpStatusCode.OK)
-                {
-                    if (result.ReasonPhrase.ToUpper() == "Not Found".ToUpper())
-                        return null;
-                    else
-                        throw new Exception($"{_mensagemPadrao}. [Msg={result.ReasonPhrase}] [Id=3001]");
-                }
-                var _retorno = JsonConvert.DeserializeObject<AgendaResponse>(resultContent);
-
-                return _retorno;
-            }
-            catch
-            {
-                throw;
-            }
-        }
-        */
+        
     }
 }

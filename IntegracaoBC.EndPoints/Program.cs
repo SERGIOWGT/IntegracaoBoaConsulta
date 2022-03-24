@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
+using Serilog;
 
 namespace IntegracaoBC.EndPoints
 {
@@ -17,6 +18,9 @@ namespace IntegracaoBC.EndPoints
                     webBuilder
                         .UseStartup<Startup>()
                         .UseIISIntegration();
-                });
+                })
+              .UseSerilog((hostContext, services, logger) => {
+                  logger.ReadFrom.Configuration(hostContext.Configuration);
+              });
     }
 }

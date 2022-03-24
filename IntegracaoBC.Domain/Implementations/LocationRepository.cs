@@ -4,8 +4,8 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using IntegracaoBC.Domain.Implementations;
-using IntegracaoBC.Provider.BoaConsulta;
 using Newtonsoft.Json;
+using IntegracaoBC.Providers.Interfaces;
 
 namespace IntegracaoBC.Infra.BoaConsulta.Repositories
 {
@@ -18,7 +18,14 @@ namespace IntegracaoBC.Infra.BoaConsulta.Repositories
             try
             {
                 var _resp = await iProviderBoaConsulta.GetAsync("locations");
-                var _retorno = JsonConvert.DeserializeObject<BoaConsultaResponse<LocationResponse>>(_resp);
+
+                if (_resp.CodigoHttp == System.Net.HttpStatusCode.NotFound)
+                    return null;
+
+                if (_resp.Sucesso == false)
+                    throw new System.Exception(_resp.Resultado);
+
+                var _retorno = JsonConvert.DeserializeObject<BoaConsultaResponse<LocationResponse>>(_resp.Resultado);
                 return (IEnumerable<LocationResponse>)_retorno.objects;
             }
             catch
@@ -33,7 +40,9 @@ namespace IntegracaoBC.Infra.BoaConsulta.Repositories
             try
             {
                 var _jsonParam = JsonConvert.SerializeObject(novo);
-                await iProviderBoaConsulta.PostAsync(_jsonParam, "locations");
+                var _resp = await iProviderBoaConsulta.PostAsync(_jsonParam, "locations");
+                if (_resp.Sucesso == false)
+                    _retorno = _resp.Resultado;
             }
             catch (Exception e)
             {
@@ -49,7 +58,9 @@ namespace IntegracaoBC.Infra.BoaConsulta.Repositories
             try
             {
                 var _jsonParam = JsonConvert.SerializeObject(update);
-                await iProviderBoaConsulta.PostAsync(_jsonParam, $"locations/{id}");
+                var _resp = await iProviderBoaConsulta.PostAsync(_jsonParam, $"locations/{id}");
+                if (_resp.Sucesso == false)
+                    _retorno = _resp.Resultado;
             }
             catch (Exception e)
             {
@@ -64,7 +75,9 @@ namespace IntegracaoBC.Infra.BoaConsulta.Repositories
             var _retorno = "OK";
             try
             {
-                await iProviderBoaConsulta.DeleteAsync($"locations/{id}");
+                var _resp = await iProviderBoaConsulta.DeleteAsync($"locations/{id}");
+                if (_resp.Sucesso == false)
+                    _retorno = _resp.Resultado;
             }
             catch (Exception e)
             {
@@ -72,55 +85,5 @@ namespace IntegracaoBC.Infra.BoaConsulta.Repositories
             }
             return _retorno;
         }
-        /*
-
-        public async Task<string> Update(string Id, UpdateLocationRequest update)
-        {
-            string _retorno = "OK";
-            if (tokenAcesso == "")
-            {
-                tokenAcesso = await _iLoginBoaConsultaRepository.Autoriza();
-            }
-                
-
-            try
-            {
-                var _jsonParam = JsonConvert.SerializeObject(update);
-                var _httpContent = new StringContent(_jsonParam, Encoding.UTF8, "application/json");
-
-                var client = new System.Net.Http.HttpClient();
-                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", tokenAcesso);
-
-                var _url = urlPadrao + $"locations/{Id}";
-                var response = client.PutAsync(new Uri(_url), _httpContent).Result;
-                string result = await response.Content.ReadAsStringAsync();
-
-                if (!response.IsSuccessStatusCode)
-                {
-                    if (result == "")
-                    {
-                        _retorno = $"Erro na chamada a put:locations. [HttpStatus={response.StatusCode}, Mensagem={response.ReasonPhrase}]";
-                    }
-                    else
-                    {
-                        ErrorBoaConsulta _erro = JsonConvert.DeserializeObject<ErrorBoaConsulta>(result);
-                        _retorno = _erro.error;
-                    }
-                }
-
-            }
-            catch (WebException ex)
-            {
-                _retorno = $"WebException ao chamar put:location. [Error=21005] [Status={ex.Status}] [Message={ex.Message}";
-            }
-            catch (Exception e)
-            {
-                _retorno = $"Exception ao chamar put:location. [Error=21006] [Message={e.Message}";
-            }
-
-            return _retorno;
-        }
-        */
-        
     }
 }

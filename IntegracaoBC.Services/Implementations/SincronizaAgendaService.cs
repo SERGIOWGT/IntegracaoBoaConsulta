@@ -282,7 +282,7 @@ namespace IntegracaoBC.Services.Implementations
         {
 
             var _retorno = new List<ConsultorioConvenio>();
-            var _convenios021 = (List<ConvenioResponse>)await _iConvenioRepository.GetAll();
+            var _convenios021 = (List<ConvenioResponse>)await _iConvenioRepository.Lista();
             var _consultorios021 = (List<ConsultorioResponse>)await _iConsultorioRepository.GetAll();
             var _consultoriosAgenda = expedientesAtivos.Select(x => x.Expediente.ConsultorioId).Distinct().ToList();
 

@@ -1,0 +1,284 @@
+2022-03-17 14:12:26.132 -03:00 [INF] POST ==> /api/v1/CriaAgendamento 
+==> HEADER: 
+| Accept = */*| Accept-Encoding = gzip, deflate, br| Authorization = Bearer 7b2d3719c3654d88a6d8f5164bc8c39b97c2edf898a37251fe9f3a01cf7fac38| Connection = keep-alive| Content-Length = 2619| Content-Type = application/json| Host = localhost:44380| User-Agent = PostmanRuntime/7.29.0| Postman-Token = c173dcfa-765c-46b6-9f29-99c0dc9d18c9
+==> BODY: 
+{"event":"APPOINTMENT_REQUEST_CREATED","data":{"id":"7c56fd300000000000000000","updated_at":"1900-01-01T00:00:00-03:00","agenda_id":"960_36_410","date":"2022-03-16T00:00:00","start":"15:30","end":"08:30","duration":30,"specialty":{"id":"7c56fd300000000000000006","name":"Atendimento Geral (Rotina)","full_name":"Cardiologista","base":false,"group":{"id":"7c56fd300000000000000004","name":"Médico","slug":"medico","order":1}},"rfe":"Avaliação de rotina","patient":{"phone":"(11) 96404-9400","phone_status":"verified","email_verified":false,"created_at":"1900-01-01T00:00:00-03:00","updated_at":"1900-01-01T00:00:00-03:00","id":"7c56fd300000000000000007","name":"Sérgio Wellington Lopes de Sousa","gender":"male","date_of_birth":"1972-11-03T00:00:00","cpf":"018.345.227-04","email":"sergiowgt@gmail.com"},"dependent":null,"patient_dir":null,"health_carrier":{"id":"4fbd0896eed3ee0001000043"},"rescheduling_infos":null,"card_number":"1234","first_time":true,"status":0,"extended_status":"UNCONFIRMED-BY-PROFESSIONAL","origin":"site","actor":"patient","tenant":"boaconsulta","rsvp":null,"patient_attended":null,"cancelation_option":null,"cancelation_note":null,"historic":true,"private_appointment":true,"cpf":"999.999.999-99","plan_name":"Plan name","patient_note":null,"doctor_note":null,"response_time":null,"confirmed_at":null,"created_at":"1900-01-01T00:00:00-03:00"}
+
+2022-03-17 14:12:38.278 -03:00 [ERR] VOCÊ JÁ ESTÁ MARCADO PARA ESSE HORÁRIO.
+2022-03-17 14:14:15.051 -03:00 [INF] POST ==> /api/v1/CriaAgendamento 
+==> HEADER: 
+| Accept = */*| Accept-Encoding = gzip, deflate, br| Authorization = Bearer 7b2d3719c3654d88a6d8f5164bc8c39b97c2edf898a37251fe9f3a01cf7fac38| Connection = keep-alive| Content-Length = 2619| Content-Type = application/json| Host = localhost:44380| User-Agent = PostmanRuntime/7.29.0| Postman-Token = a3d148aa-a74d-445a-ada3-50e14fb9fcaf
+==> BODY: 
+{"event":"APPOINTMENT_REQUEST_CREATED","data":{"id":"7c56fd300000000000000000","updated_at":"1900-01-01T00:00:00-03:00","agenda_id":"960_36_410","date":"2022-03-16T00:00:00","start":"15:30","end":"08:30","duration":30,"specialty":{"id":"7c56fd300000000000000006","name":"Atendimento Geral (Rotina)","full_name":"Cardiologista","base":false,"group":{"id":"7c56fd300000000000000004","name":"Médico","slug":"medico","order":1}},"rfe":"Avaliação de rotina","patient":{"phone":"(11) 96404-9400","phone_status":"verified","email_verified":false,"created_at":"1900-01-01T00:00:00-03:00","updated_at":"1900-01-01T00:00:00-03:00","id":"7c56fd300000000000000007","name":"Sérgio Wellington Lopes de Sousa","gender":"male","date_of_birth":"1972-11-03T00:00:00","cpf":"018.345.227-04","email":"sergiowgt@gmail.com"},"dependent":null,"patient_dir":null,"health_carrier":{"id":"4fbd0896eed3ee0001000043"},"rescheduling_infos":null,"card_number":"1234","first_time":true,"status":0,"extended_status":"UNCONFIRMED-BY-PROFESSIONAL","origin":"site","actor":"patient","tenant":"boaconsulta","rsvp":null,"patient_attended":null,"cancelation_option":null,"cancelation_note":null,"historic":true,"private_appointment":true,"cpf":"999.999.999-99","plan_name":"Plan name","patient_note":null,"doctor_note":null,"response_time":null,"confirmed_at":null,"created_at":"1900-01-01T00:00:00-03:00"}
+
+2022-03-17 14:14:20.818 -03:00 [ERR] [BCId=7c56fd300000000000000000] ==> VOCÊ JÁ ESTÁ MARCADO PARA ESSE HORÁRIO.
+2022-03-17 14:15:51.508 -03:00 [INF] POST ==> /api/v1/CriaAgendamento 
+==> [BCId=7c56fd300000000000000000]
+==> HEADER: 
+| Accept = */*| Accept-Encoding = gzip, deflate, br| Authorization = Bearer 7b2d3719c3654d88a6d8f5164bc8c39b97c2edf898a37251fe9f3a01cf7fac38| Connection = keep-alive| Content-Length = 2619| Content-Type = application/json| Host = localhost:44380| User-Agent = PostmanRuntime/7.29.0| Postman-Token = f0b63f1f-29b2-4aea-9f44-ad0f6425e042
+==> BODY: 
+{"event":"APPOINTMENT_REQUEST_CREATED","data":{"id":"7c56fd300000000000000000","updated_at":"1900-01-01T00:00:00-03:00","agenda_id":"960_36_410","date":"2022-03-16T00:00:00","start":"15:30","end":"08:30","duration":30,"specialty":{"id":"7c56fd300000000000000006","name":"Atendimento Geral (Rotina)","full_name":"Cardiologista","base":false,"group":{"id":"7c56fd300000000000000004","name":"Médico","slug":"medico","order":1}},"rfe":"Avaliação de rotina","patient":{"phone":"(11) 96404-9400","phone_status":"verified","email_verified":false,"created_at":"1900-01-01T00:00:00-03:00","updated_at":"1900-01-01T00:00:00-03:00","id":"7c56fd300000000000000007","name":"Sérgio Wellington Lopes de Sousa","gender":"male","date_of_birth":"1972-11-03T00:00:00","cpf":"018.345.227-04","email":"sergiowgt@gmail.com"},"dependent":null,"patient_dir":null,"health_carrier":{"id":"4fbd0896eed3ee0001000043"},"rescheduling_infos":null,"card_number":"1234","first_time":true,"status":0,"extended_status":"UNCONFIRMED-BY-PROFESSIONAL","origin":"site","actor":"patient","tenant":"boaconsulta","rsvp":null,"patient_attended":null,"cancelation_option":null,"cancelation_note":null,"historic":true,"private_appointment":true,"cpf":"999.999.999-99","plan_name":"Plan name","patient_note":null,"doctor_note":null,"response_time":null,"confirmed_at":null,"created_at":"1900-01-01T00:00:00-03:00"}
+
+2022-03-17 14:15:56.429 -03:00 [ERR] [BCId=7c56fd300000000000000000] ==> VOCÊ JÁ ESTÁ MARCADO PARA ESSE HORÁRIO.
+2022-03-17 14:16:01.789 -03:00 [INF] POST ==> /api/v1/CriaAgendamento 
+==> [BCId=7c56fd300000000000000000]
+==> HEADER: 
+| Accept = */*| Accept-Encoding = gzip, deflate, br| Authorization = Bearer 7b2d3719c3654d88a6d8f5164bc8c39b97c2edf898a37251fe9f3a01cf7fac38| Connection = keep-alive| Content-Length = 2619| Content-Type = application/json| Host = localhost:44380| User-Agent = PostmanRuntime/7.29.0| Postman-Token = 2842ea51-20e0-425f-9489-e9efa77ce368
+==> BODY: 
+{"event":"APPOINTMENT_REQUEST_CREATED","data":{"id":"7c56fd300000000000000000","updated_at":"1900-01-01T00:00:00-03:00","agenda_id":"960_36_410","date":"2022-03-16T00:00:00","start":"15:30","end":"08:30","duration":30,"specialty":{"id":"7c56fd300000000000000006","name":"Atendimento Geral (Rotina)","full_name":"Cardiologista","base":false,"group":{"id":"7c56fd300000000000000004","name":"Médico","slug":"medico","order":1}},"rfe":"Avaliação de rotina","patient":{"phone":"(11) 96404-9400","phone_status":"verified","email_verified":false,"created_at":"1900-01-01T00:00:00-03:00","updated_at":"1900-01-01T00:00:00-03:00","id":"7c56fd300000000000000007","name":"Sérgio Wellington Lopes de Sousa","gender":"male","date_of_birth":"1972-11-03T00:00:00","cpf":"018.345.227-04","email":"sergiowgt@gmail.com"},"dependent":null,"patient_dir":null,"health_carrier":{"id":"4fbd0896eed3ee0001000043"},"rescheduling_infos":null,"card_number":"1234","first_time":true,"status":0,"extended_status":"UNCONFIRMED-BY-PROFESSIONAL","origin":"site","actor":"patient","tenant":"boaconsulta","rsvp":null,"patient_attended":null,"cancelation_option":null,"cancelation_note":null,"historic":true,"private_appointment":true,"cpf":"999.999.999-99","plan_name":"Plan name","patient_note":null,"doctor_note":null,"response_time":null,"confirmed_at":null,"created_at":"1900-01-01T00:00:00-03:00"}
+
+2022-03-17 14:16:05.279 -03:00 [ERR] [BCId=7c56fd300000000000000000] ==> VOCÊ JÁ ESTÁ MARCADO PARA ESSE HORÁRIO.
+2022-03-17 14:43:42.660 -03:00 [INF] POST ==> /api/v1/CriaAgendamento 
+==> [BCId=7c56fd300000000000000000]
+==> HEADER: 
+| Accept = */*| Accept-Encoding = gzip, deflate, br| Authorization = Bearer 7b2d3719c3654d88a6d8f5164bc8c39b97c2edf898a37251fe9f3a01cf7fac38| Connection = keep-alive| Content-Length = 2619| Content-Type = application/json| Host = localhost:44380| User-Agent = PostmanRuntime/7.29.0| Postman-Token = c1f8bbac-5ea5-4fd4-a570-95a1bfdc48ee
+==> BODY: 
+{"event":"APPOINTMENT_REQUEST_CREATED","data":{"id":"7c56fd300000000000000000","updated_at":"1900-01-01T00:00:00-03:00","agenda_id":"960_36_410","date":"2022-03-16T00:00:00","start":"16:30","end":"08:30","duration":30,"specialty":{"id":"7c56fd300000000000000006","name":"Atendimento Geral (Rotina)","full_name":"Cardiologista","base":false,"group":{"id":"7c56fd300000000000000004","name":"Médico","slug":"medico","order":1}},"rfe":"Avaliação de rotina","patient":{"phone":"(11) 96404-9400","phone_status":"verified","email_verified":false,"created_at":"1900-01-01T00:00:00-03:00","updated_at":"1900-01-01T00:00:00-03:00","id":"7c56fd300000000000000007","name":"Sérgio Wellington Lopes de Sousa","gender":"male","date_of_birth":"1972-11-03T00:00:00","cpf":"018.345.227-04","email":"sergiowgt@gmail.com"},"dependent":null,"patient_dir":null,"health_carrier":{"id":"4fbd0896eed3ee0001000043"},"rescheduling_infos":null,"card_number":"1234","first_time":true,"status":0,"extended_status":"UNCONFIRMED-BY-PROFESSIONAL","origin":"site","actor":"patient","tenant":"boaconsulta","rsvp":null,"patient_attended":null,"cancelation_option":null,"cancelation_note":null,"historic":true,"private_appointment":true,"cpf":"999.999.999-99","plan_name":"Plan name","patient_note":null,"doctor_note":null,"response_time":null,"confirmed_at":null,"created_at":"1900-01-01T00:00:00-03:00"}
+
+2022-03-17 14:43:50.733 -03:00 [INF] Agendamento Criado [agendamentoId=1108932] [BCId=7c56fd300000000000000000]
+2022-03-17 14:44:54.305 -03:00 [INF] POST ==> /api/v1/CriaAgendamento 
+==> [BCId=7c56fd300000000000000000]
+==> HEADER: 
+| Accept = */*| Accept-Encoding = gzip, deflate, br| Authorization = Bearer 7b2d3719c3654d88a6d8f5164bc8c39b97c2edf898a37251fe9f3a01cf7fac38| Connection = keep-alive| Content-Length = 2619| Content-Type = application/json| Host = localhost:44380| User-Agent = PostmanRuntime/7.29.0| Postman-Token = 079e1450-575e-4f09-a3c1-5ad15f0b97c2
+==> BODY: 
+{"event":"APPOINTMENT_REQUEST_CREATED","data":{"id":"7c56fd300000000000000000","updated_at":"1900-01-01T00:00:00-03:00","agenda_id":"960_36_410","date":"2022-03-16T00:00:00","start":"14:30","end":"08:30","duration":30,"specialty":{"id":"7c56fd300000000000000006","name":"Atendimento Geral (Rotina)","full_name":"Cardiologista","base":false,"group":{"id":"7c56fd300000000000000004","name":"Médico","slug":"medico","order":1}},"rfe":"Avaliação de rotina","patient":{"phone":"(11) 96404-9400","phone_status":"verified","email_verified":false,"created_at":"1900-01-01T00:00:00-03:00","updated_at":"1900-01-01T00:00:00-03:00","id":"7c56fd300000000000000007","name":"Sérgio Wellington Lopes de Sousa","gender":"male","date_of_birth":"1972-11-03T00:00:00","cpf":"018.345.227-04","email":"sergiowgt@gmail.com"},"dependent":null,"patient_dir":null,"health_carrier":{"id":"4fbd0896eed3ee0001000043"},"rescheduling_infos":null,"card_number":"1234","first_time":true,"status":0,"extended_status":"UNCONFIRMED-BY-PROFESSIONAL","origin":"site","actor":"patient","tenant":"boaconsulta","rsvp":null,"patient_attended":null,"cancelation_option":null,"cancelation_note":null,"historic":true,"private_appointment":true,"cpf":"999.999.999-99","plan_name":"Plan name","patient_note":null,"doctor_note":null,"response_time":null,"confirmed_at":null,"created_at":"1900-01-01T00:00:00-03:00"}
+
+2022-03-17 14:45:36.975 -03:00 [ERR] [BCId=7c56fd300000000000000000] ==> <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"> 
+<html xmlns="http://www.w3.org/1999/xhtml"> 
+<head> 
+<title>IIS 10.0 Detailed Error - 502.3 - Bad Gateway</title> 
+<style type="text/css"> 
+<!-- 
+body{margin:0;font-size:.7em;font-family:Verdana,Arial,Helvetica,sans-serif;} 
+code{margin:0;color:#006600;font-size:1.1em;font-weight:bold;} 
+.config_source code{font-size:.8em;color:#000000;} 
+pre{margin:0;font-size:1.4em;word-wrap:break-word;} 
+ul,ol{margin:10px 0 10px 5px;} 
+ul.first,ol.first{margin-top:5px;} 
+fieldset{padding:0 15px 10px 15px;word-break:break-all;} 
+.summary-container fieldset{padding-bottom:5px;margin-top:4px;} 
+legend.no-expand-all{padding:2px 15px 4px 10px;margin:0 0 0 -12px;} 
+legend{color:#333333;;margin:4px 0 8px -12px;_margin-top:0px; 
+font-weight:bold;font-size:1em;} 
+a:link,a:visited{color:#007EFF;font-weight:bold;} 
+a:hover{text-decoration:none;} 
+h1{font-size:2.4em;margin:0;color:#FFF;} 
+h2{font-size:1.7em;margin:0;color:#CC0000;} 
+h3{font-size:1.4em;margin:10px 0 0 0;color:#CC0000;} 
+h4{font-size:1.2em;margin:10px 0 5px 0; 
+}#header{width:96%;margin:0 0 0 0;padding:6px 2% 6px 2%;font-family:"trebuchet MS",Verdana,sans-serif; 
+ color:#FFF;background-color:#5C87B2; 
+}#content{margin:0 0 0 2%;position:relative;} 
+.summary-container,.content-container{background:#FFF;width:96%;margin-top:8px;padding:10px;position:relative;} 
+.content-container p{margin:0 0 10px 0; 
+}#details-left{width:35%;float:left;margin-right:2%; 
+}#details-right{width:63%;float:left;overflow:hidden; 
+}#server_version{width:96%;_height:1px;min-height:1px;margin:0 0 5px 0;padding:11px 2% 8px 2%;color:#FFFFFF; 
+ background-color:#5A7FA5;border-bottom:1px solid #C1CFDD;border-top:1px solid #4A6C8E;font-weight:normal; 
+ font-size:1em;color:#FFF;text-align:right; 
+}#server_version p{margin:5px 0;} 
+table{margin:4px 0 4px 0;width:100%;border:none;} 
+td,th{vertical-align:top;padding:3px 0;text-align:left;font-weight:normal;border:none;} 
+th{width:30%;text-align:right;padding-right:2%;font-weight:bold;} 
+thead th{background-color:#ebebeb;width:25%; 
+}#details-right th{width:20%;} 
+table tr.alt td,table tr.alt th{} 
+.highlight-code{color:#CC0000;font-weight:bold;font-style:italic;} 
+.clear{clear:both;} 
+.preferred{padding:0 5px 2px 5px;font-weight:normal;background:#006633;color:#FFF;font-size:.8em;} 
+--> 
+</style> 
+ 
+</head> 
+<body> 
+<div id="content"> 
+<div class="content-container"> 
+  <h3>HTTP Error 502.3 - Bad Gateway</h3> 
+  <h4>A conexão com o servidor foi interrompida de modo anormal
+</h4> 
+</div> 
+<div class="content-container"> 
+ <fieldset><h4>Causas mais prováveis:</h4> 
+  <ul> 	<li>O aplicativo CGI não retornou um conjunto válido de erros HTTP.</li> 	<li>Um servidor agindo como um proxy ou gateway não pôde processar a solicitação devido a um erro em um gateway pai.</li> </ul> 
+ </fieldset> 
+</div> 
+<div class="content-container"> 
+ <fieldset><h4>Ações que você pode tentar:</h4> 
+  <ul> 	<li>Use DebugDiag para solucionar problemas com o aplicativo CGI.</li> 	<li>Determine se um proxy ou gateway é responsável por esse erro.</li> </ul> 
+ </fieldset> 
+</div> 
+ 
+<div class="content-container"> 
+ <fieldset><h4>Detailed Error Information:</h4> 
+  <div id="details-left"> 
+   <table border="0" cellpadding="0" cellspacing="0"> 
+    <tr class="alt"><th>Module</th><td>&nbsp;&nbsp;&nbsp;AspNetCoreModuleV2</td></tr> 
+    <tr><th>Notification</th><td>&nbsp;&nbsp;&nbsp;ExecuteRequestHandler</td></tr> 
+    <tr class="alt"><th>Handler</th><td>&nbsp;&nbsp;&nbsp;aspNetCore</td></tr> 
+    <tr><th>Error Code</th><td>&nbsp;&nbsp;&nbsp;0x80072efe</td></tr> 
+     
+   </table> 
+  </div> 
+  <div id="details-right"> 
+   <table border="0" cellpadding="0" cellspacing="0"> 
+    <tr class="alt"><th>Requested URL</th><td>&nbsp;&nbsp;&nbsp;http://localhost:56486/api/agenda/Marca</td></tr> 
+    <tr><th>Physical Path</th><td>&nbsp;&nbsp;&nbsp;C:\drive_d\Repositorios\repositorio.021\021Dental\AgendaNova\LasTec.Seguranca.WebApi\api\agenda\Marca</td></tr> 
+    <tr class="alt"><th>Logon Method</th><td>&nbsp;&nbsp;&nbsp;Anônimo</td></tr> 
+    <tr><th>Logon User</th><td>&nbsp;&nbsp;&nbsp;Anônimo</td></tr> 
+     
+   </table> 
+   <div class="clear"></div> 
+  </div> 
+ </fieldset> 
+</div> 
+ 
+<div class="content-container"> 
+ <fieldset><h4>More Information:</h4> 
+  Este erro ocorre quando um aplicativo CGI não retorna um conjunto válido de cabeçalhos HTTP, ou quando um proxy ou gateway não pôde enviar a solicitação a um gateway pai. Convém obter um rastreamento de rede ou contatar o administrador do servidor proxy, se não for um problema de CGI. 
+  <p><a href="https://go.microsoft.com/fwlink/?LinkID=62293&amp;IIS70Error=502,3,0x80072efe,22000">View more information &raquo;</a></p> 
+   
+ </fieldset> 
+</div> 
+</div> 
+</body> 
+</html> 
+
+2022-03-17 14:45:46.000 -03:00 [INF] POST ==> /api/v1/CriaAgendamento 
+==> [BCId=7c56fd300000000000000000]
+==> HEADER: 
+| Accept = */*| Accept-Encoding = gzip, deflate, br| Authorization = Bearer 7b2d3719c3654d88a6d8f5164bc8c39b97c2edf898a37251fe9f3a01cf7fac38| Connection = keep-alive| Content-Length = 2619| Content-Type = application/json| Host = localhost:44380| User-Agent = PostmanRuntime/7.29.0| Postman-Token = 0cd613a0-0916-40b9-b069-08fba9bc9500
+==> BODY: 
+{"event":"APPOINTMENT_REQUEST_CREATED","data":{"id":"7c56fd300000000000000000","updated_at":"1900-01-01T00:00:00-03:00","agenda_id":"960_36_410","date":"2022-03-16T00:00:00","start":"14:30","end":"08:30","duration":30,"specialty":{"id":"7c56fd300000000000000006","name":"Atendimento Geral (Rotina)","full_name":"Cardiologista","base":false,"group":{"id":"7c56fd300000000000000004","name":"Médico","slug":"medico","order":1}},"rfe":"Avaliação de rotina","patient":{"phone":"(11) 96404-9400","phone_status":"verified","email_verified":false,"created_at":"1900-01-01T00:00:00-03:00","updated_at":"1900-01-01T00:00:00-03:00","id":"7c56fd300000000000000007","name":"Sérgio Wellington Lopes de Sousa","gender":"male","date_of_birth":"1972-11-03T00:00:00","cpf":"018.345.227-04","email":"sergiowgt@gmail.com"},"dependent":null,"patient_dir":null,"health_carrier":{"id":"4fbd0896eed3ee0001000043"},"rescheduling_infos":null,"card_number":"1234","first_time":true,"status":0,"extended_status":"UNCONFIRMED-BY-PROFESSIONAL","origin":"site","actor":"patient","tenant":"boaconsulta","rsvp":null,"patient_attended":null,"cancelation_option":null,"cancelation_note":null,"historic":true,"private_appointment":true,"cpf":"999.999.999-99","plan_name":"Plan name","patient_note":null,"doctor_note":null,"response_time":null,"confirmed_at":null,"created_at":"1900-01-01T00:00:00-03:00"}
+
+2022-03-17 14:46:32.072 -03:00 [ERR] [BCId=7c56fd300000000000000000] ==> <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"> 
+<html xmlns="http://www.w3.org/1999/xhtml"> 
+<head> 
+<title>IIS 10.0 Detailed Error - 502.3 - Bad Gateway</title> 
+<style type="text/css"> 
+<!-- 
+body{margin:0;font-size:.7em;font-family:Verdana,Arial,Helvetica,sans-serif;} 
+code{margin:0;color:#006600;font-size:1.1em;font-weight:bold;} 
+.config_source code{font-size:.8em;color:#000000;} 
+pre{margin:0;font-size:1.4em;word-wrap:break-word;} 
+ul,ol{margin:10px 0 10px 5px;} 
+ul.first,ol.first{margin-top:5px;} 
+fieldset{padding:0 15px 10px 15px;word-break:break-all;} 
+.summary-container fieldset{padding-bottom:5px;margin-top:4px;} 
+legend.no-expand-all{padding:2px 15px 4px 10px;margin:0 0 0 -12px;} 
+legend{color:#333333;;margin:4px 0 8px -12px;_margin-top:0px; 
+font-weight:bold;font-size:1em;} 
+a:link,a:visited{color:#007EFF;font-weight:bold;} 
+a:hover{text-decoration:none;} 
+h1{font-size:2.4em;margin:0;color:#FFF;} 
+h2{font-size:1.7em;margin:0;color:#CC0000;} 
+h3{font-size:1.4em;margin:10px 0 0 0;color:#CC0000;} 
+h4{font-size:1.2em;margin:10px 0 5px 0; 
+}#header{width:96%;margin:0 0 0 0;padding:6px 2% 6px 2%;font-family:"trebuchet MS",Verdana,sans-serif; 
+ color:#FFF;background-color:#5C87B2; 
+}#content{margin:0 0 0 2%;position:relative;} 
+.summary-container,.content-container{background:#FFF;width:96%;margin-top:8px;padding:10px;position:relative;} 
+.content-container p{margin:0 0 10px 0; 
+}#details-left{width:35%;float:left;margin-right:2%; 
+}#details-right{width:63%;float:left;overflow:hidden; 
+}#server_version{width:96%;_height:1px;min-height:1px;margin:0 0 5px 0;padding:11px 2% 8px 2%;color:#FFFFFF; 
+ background-color:#5A7FA5;border-bottom:1px solid #C1CFDD;border-top:1px solid #4A6C8E;font-weight:normal; 
+ font-size:1em;color:#FFF;text-align:right; 
+}#server_version p{margin:5px 0;} 
+table{margin:4px 0 4px 0;width:100%;border:none;} 
+td,th{vertical-align:top;padding:3px 0;text-align:left;font-weight:normal;border:none;} 
+th{width:30%;text-align:right;padding-right:2%;font-weight:bold;} 
+thead th{background-color:#ebebeb;width:25%; 
+}#details-right th{width:20%;} 
+table tr.alt td,table tr.alt th{} 
+.highlight-code{color:#CC0000;font-weight:bold;font-style:italic;} 
+.clear{clear:both;} 
+.preferred{padding:0 5px 2px 5px;font-weight:normal;background:#006633;color:#FFF;font-size:.8em;} 
+--> 
+</style> 
+ 
+</head> 
+<body> 
+<div id="content"> 
+<div class="content-container"> 
+  <h3>HTTP Error 502.3 - Bad Gateway</h3> 
+  <h4>A conexão com o servidor foi interrompida de modo anormal
+</h4> 
+</div> 
+<div class="content-container"> 
+ <fieldset><h4>Causas mais prováveis:</h4> 
+  <ul> 	<li>O aplicativo CGI não retornou um conjunto válido de erros HTTP.</li> 	<li>Um servidor agindo como um proxy ou gateway não pôde processar a solicitação devido a um erro em um gateway pai.</li> </ul> 
+ </fieldset> 
+</div> 
+<div class="content-container"> 
+ <fieldset><h4>Ações que você pode tentar:</h4> 
+  <ul> 	<li>Use DebugDiag para solucionar problemas com o aplicativo CGI.</li> 	<li>Determine se um proxy ou gateway é responsável por esse erro.</li> </ul> 
+ </fieldset> 
+</div> 
+ 
+<div class="content-container"> 
+ <fieldset><h4>Detailed Error Information:</h4> 
+  <div id="details-left"> 
+   <table border="0" cellpadding="0" cellspacing="0"> 
+    <tr class="alt"><th>Module</th><td>&nbsp;&nbsp;&nbsp;AspNetCoreModuleV2</td></tr> 
+    <tr><th>Notification</th><td>&nbsp;&nbsp;&nbsp;ExecuteRequestHandler</td></tr> 
+    <tr class="alt"><th>Handler</th><td>&nbsp;&nbsp;&nbsp;aspNetCore</td></tr> 
+    <tr><th>Error Code</th><td>&nbsp;&nbsp;&nbsp;0x80072efe</td></tr> 
+     
+   </table> 
+  </div> 
+  <div id="details-right"> 
+   <table border="0" cellpadding="0" cellspacing="0"> 
+    <tr class="alt"><th>Requested URL</th><td>&nbsp;&nbsp;&nbsp;http://localhost:56486/api/agenda/Marca</td></tr> 
+    <tr><th>Physical Path</th><td>&nbsp;&nbsp;&nbsp;C:\drive_d\Repositorios\repositorio.021\021Dental\AgendaNova\LasTec.Seguranca.WebApi\api\agenda\Marca</td></tr> 
+    <tr class="alt"><th>Logon Method</th><td>&nbsp;&nbsp;&nbsp;Anônimo</td></tr> 
+    <tr><th>Logon User</th><td>&nbsp;&nbsp;&nbsp;Anônimo</td></tr> 
+     
+   </table> 
+   <div class="clear"></div> 
+  </div> 
+ </fieldset> 
+</div> 
+ 
+<div class="content-container"> 
+ <fieldset><h4>More Information:</h4> 
+  Este erro ocorre quando um aplicativo CGI não retorna um conjunto válido de cabeçalhos HTTP, ou quando um proxy ou gateway não pôde enviar a solicitação a um gateway pai. Convém obter um rastreamento de rede ou contatar o administrador do servidor proxy, se não for um problema de CGI. 
+  <p><a href="https://go.microsoft.com/fwlink/?LinkID=62293&amp;IIS70Error=502,3,0x80072efe,22000">View more information &raquo;</a></p> 
+   
+ </fieldset> 
+</div> 
+</div> 
+</body> 
+</html> 
+
+2022-03-17 14:46:58.598 -03:00 [INF] POST ==> /api/v1/CriaAgendamento 
+==> [BCId=7c56fd300000000000000000]
+==> HEADER: 
+| Accept = */*| Accept-Encoding = gzip, deflate, br| Authorization = Bearer 7b2d3719c3654d88a6d8f5164bc8c39b97c2edf898a37251fe9f3a01cf7fac38| Connection = keep-alive| Content-Length = 2619| Content-Type = application/json| Host = localhost:44380| User-Agent = PostmanRuntime/7.29.0| Postman-Token = 06e4fe10-e0ff-4020-b8a3-01ff5d5bfecc
+==> BODY: 
+{"event":"APPOINTMENT_REQUEST_CREATED","data":{"id":"7c56fd300000000000000000","updated_at":"1900-01-01T00:00:00-03:00","agenda_id":"960_36_410","date":"2022-03-16T00:00:00","start":"14:30","end":"08:30","duration":30,"specialty":{"id":"7c56fd300000000000000006","name":"Atendimento Geral (Rotina)","full_name":"Cardiologista","base":false,"group":{"id":"7c56fd300000000000000004","name":"Médico","slug":"medico","order":1}},"rfe":"Avaliação de rotina","patient":{"phone":"(11) 96404-9400","phone_status":"verified","email_verified":false,"created_at":"1900-01-01T00:00:00-03:00","updated_at":"1900-01-01T00:00:00-03:00","id":"7c56fd300000000000000007","name":"Sérgio Wellington Lopes de Sousa","gender":"male","date_of_birth":"1972-11-03T00:00:00","cpf":"018.345.227-04","email":"sergiowgt@gmail.com"},"dependent":null,"patient_dir":null,"health_carrier":{"id":"4fbd0896eed3ee0001000043"},"rescheduling_infos":null,"card_number":"1234","first_time":true,"status":0,"extended_status":"UNCONFIRMED-BY-PROFESSIONAL","origin":"site","actor":"patient","tenant":"boaconsulta","rsvp":null,"patient_attended":null,"cancelation_option":null,"cancelation_note":null,"historic":true,"private_appointment":true,"cpf":"999.999.999-99","plan_name":"Plan name","patient_note":null,"doctor_note":null,"response_time":null,"confirmed_at":null,"created_at":"1900-01-01T00:00:00-03:00"}
+
+2022-03-17 14:48:42.419 -03:00 [ERR] [BCId=7c56fd300000000000000000] ==> Exception ao chamar API(agenda/Marca). [Error=21006] [Message=One or more errors occurred. (A task was canceled.)
+2022-03-17 14:50:14.133 -03:00 [INF] POST ==> /api/v1/CriaAgendamento 
+==> [BCId=7c56fd300000000000000000]
+==> HEADER: 
+| Accept = */*| Accept-Encoding = gzip, deflate, br| Authorization = Bearer 7b2d3719c3654d88a6d8f5164bc8c39b97c2edf898a37251fe9f3a01cf7fac38| Connection = keep-alive| Content-Length = 2619| Content-Type = application/json| Host = localhost:44380| User-Agent = PostmanRuntime/7.29.0| Postman-Token = 3c7422b4-d03e-4bdc-8703-11af14adcdf6
+==> BODY: 
+{"event":"APPOINTMENT_REQUEST_CREATED","data":{"id":"7c56fd300000000000000000","updated_at":"1900-01-01T00:00:00-03:00","agenda_id":"960_36_410","date":"2022-03-16T00:00:00","start":"14:30","end":"08:30","duration":30,"specialty":{"id":"7c56fd300000000000000006","name":"Atendimento Geral (Rotina)","full_name":"Cardiologista","base":false,"group":{"id":"7c56fd300000000000000004","name":"Médico","slug":"medico","order":1}},"rfe":"Avaliação de rotina","patient":{"phone":"(11) 96404-9400","phone_status":"verified","email_verified":false,"created_at":"1900-01-01T00:00:00-03:00","updated_at":"1900-01-01T00:00:00-03:00","id":"7c56fd300000000000000007","name":"Sérgio Wellington Lopes de Sousa","gender":"male","date_of_birth":"1972-11-03T00:00:00","cpf":"018.345.227-04","email":"sergiowgt@gmail.com"},"dependent":null,"patient_dir":null,"health_carrier":{"id":"4fbd0896eed3ee0001000043"},"rescheduling_infos":null,"card_number":"1234","first_time":true,"status":0,"extended_status":"UNCONFIRMED-BY-PROFESSIONAL","origin":"site","actor":"patient","tenant":"boaconsulta","rsvp":null,"patient_attended":null,"cancelation_option":null,"cancelation_note":null,"historic":true,"private_appointment":true,"cpf":"999.999.999-99","plan_name":"Plan name","patient_note":null,"doctor_note":null,"response_time":null,"confirmed_at":null,"created_at":"1900-01-01T00:00:00-03:00"}
+
+2022-03-17 14:50:57.545 -03:00 [ERR] [BCId=7c56fd300000000000000000] ==> VOCÊ JÁ ESTÁ MARCADO PARA ESSE HORÁRIO.
+2022-03-17 14:51:08.073 -03:00 [INF] POST ==> /api/v1/CriaAgendamento 
+==> [BCId=7c56fd300000000000000000]
+==> HEADER: 
+| Accept = */*| Accept-Encoding = gzip, deflate, br| Authorization = Bearer 7b2d3719c3654d88a6d8f5164bc8c39b97c2edf898a37251fe9f3a01cf7fac38| Connection = keep-alive| Content-Length = 2619| Content-Type = application/json| Host = localhost:44380| User-Agent = PostmanRuntime/7.29.0| Postman-Token = b88e1ebf-5f43-4508-80a2-c2d3ccee717c
+==> BODY: 
+{"event":"APPOINTMENT_REQUEST_CREATED","data":{"id":"7c56fd300000000000000000","updated_at":"1900-01-01T00:00:00-03:00","agenda_id":"960_36_410","date":"2022-03-16T00:00:00","start":"13:30","end":"08:30","duration":30,"specialty":{"id":"7c56fd300000000000000006","name":"Atendimento Geral (Rotina)","full_name":"Cardiologista","base":false,"group":{"id":"7c56fd300000000000000004","name":"Médico","slug":"medico","order":1}},"rfe":"Avaliação de rotina","patient":{"phone":"(11) 96404-9400","phone_status":"verified","email_verified":false,"created_at":"1900-01-01T00:00:00-03:00","updated_at":"1900-01-01T00:00:00-03:00","id":"7c56fd300000000000000007","name":"Sérgio Wellington Lopes de Sousa","gender":"male","date_of_birth":"1972-11-03T00:00:00","cpf":"018.345.227-04","email":"sergiowgt@gmail.com"},"dependent":null,"patient_dir":null,"health_carrier":{"id":"4fbd0896eed3ee0001000043"},"rescheduling_infos":null,"card_number":"1234","first_time":true,"status":0,"extended_status":"UNCONFIRMED-BY-PROFESSIONAL","origin":"site","actor":"patient","tenant":"boaconsulta","rsvp":null,"patient_attended":null,"cancelation_option":null,"cancelation_note":null,"historic":true,"private_appointment":true,"cpf":"999.999.999-99","plan_name":"Plan name","patient_note":null,"doctor_note":null,"response_time":null,"confirmed_at":null,"created_at":"1900-01-01T00:00:00-03:00"}
+
+2022-03-17 14:51:12.411 -03:00 [ERR] [BCId=7c56fd300000000000000000] ==> Slot não encontrado.
+2022-03-17 14:51:32.608 -03:00 [INF] POST ==> /api/v1/CriaAgendamento 
+==> [BCId=7c56fd300000000000000000]
+==> HEADER: 
+| Accept = */*| Accept-Encoding = gzip, deflate, br| Authorization = Bearer 7b2d3719c3654d88a6d8f5164bc8c39b97c2edf898a37251fe9f3a01cf7fac38| Connection = keep-alive| Content-Length = 2619| Content-Type = application/json| Host = localhost:44380| User-Agent = PostmanRuntime/7.29.0| Postman-Token = e74a347d-454a-49fb-9b35-0332a2a7d105
+==> BODY: 
+{"event":"APPOINTMENT_REQUEST_CREATED","data":{"id":"7c56fd300000000000000000","updated_at":"1900-01-01T00:00:00-03:00","agenda_id":"960_36_410","date":"2022-03-16T00:00:00","start":"14:00","end":"08:30","duration":30,"specialty":{"id":"7c56fd300000000000000006","name":"Atendimento Geral (Rotina)","full_name":"Cardiologista","base":false,"group":{"id":"7c56fd300000000000000004","name":"Médico","slug":"medico","order":1}},"rfe":"Avaliação de rotina","patient":{"phone":"(11) 96404-9400","phone_status":"verified","email_verified":false,"created_at":"1900-01-01T00:00:00-03:00","updated_at":"1900-01-01T00:00:00-03:00","id":"7c56fd300000000000000007","name":"Sérgio Wellington Lopes de Sousa","gender":"male","date_of_birth":"1972-11-03T00:00:00","cpf":"018.345.227-04","email":"sergiowgt@gmail.com"},"dependent":null,"patient_dir":null,"health_carrier":{"id":"4fbd0896eed3ee0001000043"},"rescheduling_infos":null,"card_number":"1234","first_time":true,"status":0,"extended_status":"UNCONFIRMED-BY-PROFESSIONAL","origin":"site","actor":"patient","tenant":"boaconsulta","rsvp":null,"patient_attended":null,"cancelation_option":null,"cancelation_note":null,"historic":true,"private_appointment":true,"cpf":"999.999.999-99","plan_name":"Plan name","patient_note":null,"doctor_note":null,"response_time":null,"confirmed_at":null,"created_at":"1900-01-01T00:00:00-03:00"}
+
+2022-03-17 14:52:18.318 -03:00 [INF] Agendamento Criado [agendamentoId=1108933] [BCId=7c56fd300000000000000000]

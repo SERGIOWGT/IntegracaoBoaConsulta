@@ -8,10 +8,10 @@ using IntegracaoBC.Services.Implementations;
 using IntegracaoBC.Domain.Interfaces;
 using IntegracaoBC.Infra.Dental021.Repositories;
 using IntegracaoBC.Infra.BoaConsulta.Repositories;
-using IntegracaoBC.Provider.BoaConsulta;
-using IntegracaoBC.Provider.Dental021;
-using IntegracaoBC.Provider.Agenda021;
 using IntegracaoBC.Domain.Implementations;
+using Serilog;
+using IntegracaoBC.Providers.Interfaces;
+using IntegracaoBC.Providers.Implementations;
 
 namespace IntegracaoBC.EndPoints
 {
@@ -32,6 +32,7 @@ namespace IntegracaoBC.EndPoints
             services.AddSingleton<IProvider021Dental, Provider021Dental>();
             services.AddSingleton<IProviderAgenda021, ProviderAgenda021>();
 
+            services.AddSingleton<ITrataEventosAgendaService, TrataEventosAgendaService>();
             services.AddSingleton<ILimpaConsultoriosService, LimpaConsultoriosService>();
             services.AddSingleton<IListaVagasService, LIstaVagasService>();
             services.AddSingleton<IListaEspecialidadeAgendaService, ListaEspecialidadeAgendaService>();
@@ -41,6 +42,7 @@ namespace IntegracaoBC.EndPoints
 
             services.AddSingleton<IAgendaRepository, AgendaRepository>();
             services.AddSingleton<IAgenda021Repository, Agenda021Repository>();
+            services.AddSingleton<IAppointmentRepository, AppointmentRepository>();
             services.AddSingleton<IConsultorioRepository, ConsultorioRepository>();
             services.AddSingleton<IConvenioRepository, ConvenioRepository>();
             services.AddSingleton<IDoctorRepository, DoctorRepository>();
@@ -48,8 +50,10 @@ namespace IntegracaoBC.EndPoints
             services.AddSingleton<IExpedienteDentistaRepository, ExpedienteDentistaRepository>();
             services.AddSingleton<IExpedienteRepository, ExpedienteRepository>();
             services.AddSingleton<ILocationRepository, LocationRepository>();
-            services.AddSingleton<ISpecialtyRepository, SpecialtyRepository>();
+            services.AddSingleton<IPacienteRepository, PacienteRepository>();
             services.AddSingleton<IReasonRepository, ReasonRepository>();
+            services.AddSingleton<ISpecialtyRepository, SpecialtyRepository>();
+            services.AddSingleton<ISlot021Repository, Slot021Repository>();
 
             services.AddCors();
             services.AddMvc();

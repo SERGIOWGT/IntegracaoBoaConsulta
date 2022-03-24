@@ -1,6 +1,6 @@
 ﻿using IntegracaoBC.Domain.Interfaces;
 using IntegracaoBC.Domain.Mappings;
-using IntegracaoBC.Provider.Dental021;
+using IntegracaoBC.Providers.Interfaces;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -16,7 +16,14 @@ namespace IntegracaoBC.Infra.Dental021.Repositories
             try
             {
                 var _resp = await iProvider.GetAsync("ExpedientesDentistas/ListaCompletaAtivos/?usuarioId=1");
-                var _retorno = JsonConvert.DeserializeObject<IEnumerable<ExpedienteDentistaAtivosResponse>>(_resp);
+
+                if (_resp.CodigoHttp == System.Net.HttpStatusCode.NotFound)
+                    return null;
+
+                if (_resp.Sucesso == false)
+                    throw new System.Exception(_resp.Resultado);
+
+                var _retorno = JsonConvert.DeserializeObject<IEnumerable<ExpedienteDentistaAtivosResponse>>(_resp.Resultado);
 
                 return _retorno;
             }

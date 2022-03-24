@@ -1,5 +1,4 @@
-﻿
-using IntegracaoBC.Provider.BoaConsulta;
+﻿using IntegracaoBC.Providers.Interfaces;
 
 namespace IntegracaoBC.Domain.Implementations
 {

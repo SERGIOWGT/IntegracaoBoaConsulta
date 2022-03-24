@@ -1,6 +1,6 @@
 ﻿using IntegracaoBC.Domain.Interfaces;
 using IntegracaoBC.Domain.Mappings;
-using IntegracaoBC.Provider.BoaConsulta;
+using IntegracaoBC.Providers.Interfaces;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -17,7 +17,14 @@ namespace IntegracaoBC.Domain.Implementations
             try
             {
                 var _resp = await iProviderBoaConsulta.GetAsync2("export/specialties");
-                var _retorno = JsonConvert.DeserializeObject<BoaConsultaResponse<SpecialtyResponse>>(_resp);
+
+                if (_resp.CodigoHttp == System.Net.HttpStatusCode.NotFound)
+                    return null;
+
+                if (_resp.Sucesso == false)
+                    throw new System.Exception(_resp.Resultado);
+
+                var _retorno = JsonConvert.DeserializeObject<BoaConsultaResponse<SpecialtyResponse>>(_resp.Resultado);
                 return (IEnumerable<SpecialtyResponse>)_retorno.objects;
             }
             catch

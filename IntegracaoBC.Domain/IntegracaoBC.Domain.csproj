@@ -9,9 +9,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\IntegracaoBC.Provider.Agenda021\IntegracaoBC.Provider.Agenda021.csproj" />
-    <ProjectReference Include="..\IntegracaoBC.Provider.BoaConsulta\IntegracaoBC.Provider.BoaConsulta.csproj" />
-    <ProjectReference Include="..\IntegracaoBC.Provider.Dental021\IntegracaoBC.Provider.Dental021.csproj" />
+    <ProjectReference Include="..\IntegracaoBC.Provider.BoaConsulta\IntegracaoBC.Providers.csproj" />
   </ItemGroup>
 
 </Project>

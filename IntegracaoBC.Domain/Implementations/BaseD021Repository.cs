@@ -1,4 +1,4 @@
-﻿using IntegracaoBC.Provider.Dental021;
+﻿using IntegracaoBC.Providers.Interfaces;
 
 namespace IntegracaoBC.Infra.Dental021.Repositories
 {

@@ -1,7 +1,7 @@
 ﻿using IntegracaoBC.Domain.Interfaces;
 using IntegracaoBC.Domain.Mappings;
 using IntegracaoBC.Infra.Dental021.Repositories;
-using IntegracaoBC.Provider.Dental021;
+using IntegracaoBC.Providers.Interfaces;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -12,13 +12,46 @@ namespace IntegracaoBC.Domain.Implementations
     {
 
         public ConvenioRepository(IProvider021Dental iProvider) : base(iProvider) { }
-        public async Task<IEnumerable<ConvenioResponse>> GetAll()
+        public async Task<IEnumerable<ConvenioResponse>> Lista()
         {
 
             try
             {
                 var _resp = await iProvider.GetAsync("Convenios?usuarioId=1");
-                var _retorno = JsonConvert.DeserializeObject<IEnumerable<ConvenioResponse>>(_resp);
+
+                if (_resp.CodigoHttp == System.Net.HttpStatusCode.NotFound)
+                    return null;
+
+                if (_resp.Sucesso == false)
+                    throw new System.Exception(_resp.Resultado);
+
+
+
+                var _retorno = JsonConvert.DeserializeObject<IEnumerable<ConvenioResponse>>(_resp.Resultado);
+
+                return _retorno;
+            }
+            catch
+            {
+                throw;
+            }
+
+        }
+        public async Task<ConvenioSimpleResponse> ListaPorBCId(string id)
+        {
+
+            try
+            {
+                var _resp = await iProvider.GetAsync($"Convenios/ListaPorIdBoaConsulta?boaConsultaId={id}&usuarioId=1");
+
+                if (_resp.CodigoHttp == System.Net.HttpStatusCode.NotFound)
+                    return null;
+
+                if (_resp.Sucesso == false)
+                    throw new System.Exception(_resp.Resultado);
+
+
+                var _retorno = JsonConvert.DeserializeObject<ConvenioSimpleResponse>(_resp.Resultado);
 
                 return _retorno;
             }

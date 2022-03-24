@@ -1,4 +1,5 @@
-﻿using IntegracaoBC.Provider.Agenda021.DTO;
+﻿using IntegracaoBC.Providers.DTO;
+using IntegracaoBC.Providers.Interfaces;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using System;
@@ -8,7 +9,7 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace IntegracaoBC.Provider.Agenda021
+namespace IntegracaoBC.Providers.Implementations
 {
     public class ProviderAgenda021 : IProviderAgenda021
     {
@@ -38,9 +39,9 @@ namespace IntegracaoBC.Provider.Agenda021
         }
 
 
-        public async Task<Retorno> GetAsync(string url)
+        public async Task<ProviderResponse> GetAsync(string url)
         {
-            Retorno _retorno = new()
+            ProviderResponse _retorno = new()
             {
                 Sucesso = false,
                 CodigoHttp = HttpStatusCode.BadRequest,
@@ -80,9 +81,9 @@ namespace IntegracaoBC.Provider.Agenda021
 
             return _retorno;
         }
-        protected async Task<Retorno> CommandAsync(EnumCommand command, string jsonParams, string url, Boolean comAutorizacao = true)
+        protected async Task<ProviderResponse> CommandAsync(EnumCommand command, string jsonParams, string url, Boolean comAutorizacao = true)
         {
-            Retorno _retorno = new() {
+            ProviderResponse _retorno = new() {
                 Sucesso = false,
                 CodigoHttp = HttpStatusCode.BadRequest,
                 Resultado = ""
@@ -140,11 +141,11 @@ namespace IntegracaoBC.Provider.Agenda021
 
             return _retorno;
         }
-        public async Task<Retorno> PostAsync(string jsonParams, string url)
+        public async Task<ProviderResponse> PostAsync(string jsonParams, string url)
         {
             return await CommandAsync(EnumCommand.Post, jsonParams, url);
         }
-        public async Task<Retorno> PutAsync(string jsonParams, string url)
+        public async Task<ProviderResponse> PutAsync(string jsonParams, string url)
         {
             return await CommandAsync(EnumCommand.Put, jsonParams, url);
         }

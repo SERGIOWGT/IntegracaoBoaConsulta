@@ -86,6 +86,10 @@ namespace IntegracaoBC.Services.Implementations
                 _nomeBairro = "NAO INFORMADO";
                 _nomeCidade = "NAO INFORMADO";
 
+                if (consultorio.Id == 35)
+                    _nomeCidade = "NAO INFORMADO";
+
+
                 consultorio.Telefone = String.IsNullOrEmpty(consultorio.Telefone) ? "2122638960" : consultorio.Telefone;
 
                 if (long.TryParse(consultorio.BairroId, out _bairroId))

@@ -7,6 +7,7 @@ namespace IntegracaoBC.Domain.Interfaces
 {
     public interface IConvenioRepository
     {
-        Task<IEnumerable<ConvenioResponse>> GetAll();
+        Task<IEnumerable<ConvenioResponse>> Lista();
+        Task<ConvenioSimpleResponse> ListaPorBCId(string id);
     }
 }

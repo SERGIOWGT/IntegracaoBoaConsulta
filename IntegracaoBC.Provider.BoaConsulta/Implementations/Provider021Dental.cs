@@ -1,14 +1,13 @@
-﻿
-
+﻿using IntegracaoBC.Providers.DTO;
+using IntegracaoBC.Providers.Interfaces;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 
-namespace IntegracaoBC.Provider.Dental021
+namespace IntegracaoBC.Providers.Implementations
 {
     public class Provider021Dental : IProvider021Dental
     {
@@ -26,9 +25,15 @@ namespace IntegracaoBC.Provider.Dental021
         }
 
 
-        public async Task<string> GetAsync(string url)
+        public async Task<ProviderResponse> GetAsync(string url)
         {
-            var _retorno = "";
+            ProviderResponse _retorno = new()
+            {
+                Sucesso = false,
+                CodigoHttp = HttpStatusCode.BadRequest,
+                Resultado = ""
+            };
+
             var _uri = new Uri(urlPadrao + url);
             try
             {
@@ -37,8 +42,10 @@ namespace IntegracaoBC.Provider.Dental021
                 _http.DefaultRequestHeaders.Add("token", token);
                 var _response = _http.GetAsync(_uri).GetAwaiter().GetResult();
 
+                _retorno.Sucesso = _response.IsSuccessStatusCode;
+                _retorno.CodigoHttp = _response.StatusCode;
                 if (_response.StatusCode == HttpStatusCode.NotFound)
-                    return "Not.Found";
+                    return _retorno;
 
                 var _resultContent = _response.Content.ReadAsStringAsync().GetAwaiter().GetResult();
                 if (_response.StatusCode != HttpStatusCode.OK)
@@ -51,21 +58,17 @@ namespace IntegracaoBC.Provider.Dental021
                         {
                             var _erros = JsonConvert.DeserializeObject<ErrosResponse>(_resultContent);
                             _msgErro += $"Mensagem={_erros.Erros[0].Mensagem}]";
-                            throw new Exception(_msgErro);
+                            _retorno.Resultado = _msgErro;
                         }
                     }
                     _msgErro += $"[HttpStatus={_response.StatusCode}] Mensagem={_response.ReasonPhrase}]";
-                    throw new Exception(_msgErro);
+                    _retorno.Resultado = _msgErro;
                 }
-                
-                _retorno = _resultContent;
-
+                _retorno.Resultado = _resultContent;
             }
-            catch //(WebException ex)
+            catch (Exception e)
             {
-                //_retorno = $"[Error=D021] [Status={ex.Status}] [Message={ex.Message}";
-                //throw new Exception(_retorno);
-                throw;
+                _retorno.Resultado = e.Message;
             }
             return _retorno;
         }

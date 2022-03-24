@@ -1,15 +1,15 @@
-﻿using IntegracaoBC.Provider.BoaConsulta.DTO;
+﻿using IntegracaoBC.Providers.DTO;
+using IntegracaoBC.Providers.Interfaces;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using System;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
-using System.Net.Mime;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace IntegracaoBC.Provider.BoaConsulta
+namespace IntegracaoBC.Providers.Implementations
 {
     public class ProviderBoaConsulta : IProviderBoaConsulta
     {
@@ -39,7 +39,7 @@ namespace IntegracaoBC.Provider.BoaConsulta
         protected async Task<string> Autoriza()
         {
             string _retorno = "OK";
-            var _loginRequest = new LoginRequest()
+            var _loginRequest = new LoginBCRequest()
             {
                 client_id = clientId,
                 client_secret = clientSecret,
@@ -51,7 +51,7 @@ namespace IntegracaoBC.Provider.BoaConsulta
             try
             {
                 var _resp = await CommandAsync(EnumCommand.Post, _jsonParam, _url, false);
-                var _logonResponse = JsonConvert.DeserializeObject<LoginResponse>(_resp);
+                var _logonResponse = JsonConvert.DeserializeObject<LoginBCResponse>(_resp.Resultado);
                 _retorno = _logonResponse.access_token;
 
             }
@@ -62,10 +62,16 @@ namespace IntegracaoBC.Provider.BoaConsulta
 
             return _retorno;
         }
-        protected async Task<string> CommandAsync(EnumCommand command, string jsonParams, string url, Boolean comAutorizacao = true)
+        protected async Task<ProviderResponse> CommandAsync(EnumCommand command, string jsonParams, string url, Boolean comAutorizacao = true)
         {
-            var _retorno = "";
             var _uri = new Uri(urlPadrao + url);
+
+            ProviderResponse _retorno = new()
+            {
+                Sucesso = false,
+                CodigoHttp = HttpStatusCode.BadRequest,
+                Resultado = ""
+            };
 
             try
             {
@@ -86,37 +92,55 @@ namespace IntegracaoBC.Provider.BoaConsulta
                         _response = _client.PutAsync(_uri, _httpContent).Result;
                         break;
                 }
+                _retorno.Sucesso = _response.IsSuccessStatusCode;
+                _retorno.CodigoHttp = _response.StatusCode;
 
                 var _result = await _response.Content.ReadAsStringAsync();
 
                 if (_response.IsSuccessStatusCode == false)
-                    throw new Exception($"Erro na chamada a API({url}) . [HttpStatus={_response.StatusCode}, Mensagem={_response.ReasonPhrase}]");
+                {
+                    _retorno.Resultado = $"Erro na chamada a API({url}) . [HttpStatus={_response.StatusCode}, Mensagem={_response.ReasonPhrase}]";
+                    return _retorno;
+                }
 
-                _retorno = _result;
-
+                _retorno.Resultado = _result;
             }
             catch (WebException ex)
             {
-                _retorno = $"Exception ao chamar API({url}). [Error=21005] [Status={ex.Status}] [Message={ex.Message}";
+                _retorno.Resultado = $"Exception ao chamar API({url}). [Error=21005] [Status={ex.Status}] [Message={ex.Message}";
             }
             catch (Exception e)
             {
-                _retorno = $"Exception ao chamar API({url}). [Error=21006] [Message={e.Message}";
+                _retorno.Resultado = $"Exception ao chamar API({url}). [Error=21006] [Message={e.Message}";
             }
-
             return _retorno;
         }
-        public async Task<string> PostAsync(string jsonParams, string url)
+        public async Task<ProviderResponse> PostAsync(string jsonParams, string url)
         {
+            if (tokenAcesso == "")
+            {
+                tokenAcesso = await Autoriza();
+            }
             return await CommandAsync(EnumCommand.Post, jsonParams, url);
         }
-        public async Task<string> PutAsync(string jsonParams, string url)
+        public async Task<ProviderResponse> PutAsync(string jsonParams, string url)
         {
+            if (tokenAcesso == "")
+            {
+                tokenAcesso = await Autoriza();
+            }
+
             return await CommandAsync(EnumCommand.Put, jsonParams, url);
         }
-        public async Task<string> DeleteAsync(string url)
+        public async Task<ProviderResponse> DeleteAsync(string url)
         {
-            var _retorno = "";
+            ProviderResponse _retorno = new()
+            {
+                Sucesso = false,
+                CodigoHttp = HttpStatusCode.BadRequest,
+                Resultado = ""
+            };
+
             var _uri = new Uri(urlPadrao + url);
 
             try
@@ -125,27 +149,36 @@ namespace IntegracaoBC.Provider.BoaConsulta
                 _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", tokenAcesso);
 
                 var _response = _client.DeleteAsync(_uri).Result;
+                _retorno.Sucesso = _response.IsSuccessStatusCode;
+                _retorno.CodigoHttp = _response.StatusCode;
+
                 if (_response.IsSuccessStatusCode == false)
-                    throw new Exception($"Erro na chamada a API({url}) . [HttpStatus={_response.StatusCode}, Mensagem={_response.ReasonPhrase}]");
-
-
-                _retorno = await _response.Content.ReadAsStringAsync();
-
+                {
+                    _retorno.Resultado = $"Erro na chamada a API({url}) . [HttpStatus={_response.StatusCode}, Mensagem={_response.ReasonPhrase}]";
+                    return _retorno;
+                }
+                _retorno.Resultado = await _response.Content.ReadAsStringAsync();
             }
             catch (WebException ex)
             {
-                _retorno = $"Exception ao chamar API({url}). [Error=21005] [Status={ex.Status}] [Message={ex.Message}";
+                _retorno.Resultado = $"Exception ao chamar API({url}). [Error=21005] [Status={ex.Status}] [Message={ex.Message}";
             }
             catch (Exception e)
             {
-                _retorno = $"Exception ao chamar API({url}). [Error=21006] [Message={e.Message}";
+                _retorno.Resultado = $"Exception ao chamar API({url}). [Error=21006] [Message={e.Message}";
             }
 
             return _retorno;
         }
-        public async Task<string> GetAsync(string url)
+        public async Task<ProviderResponse> GetAsync(string url)
         {
-            var _retorno = "";
+            ProviderResponse _retorno = new()
+            {
+                Sucesso = false,
+                CodigoHttp = HttpStatusCode.BadRequest,
+                Resultado = ""
+            };
+
             var _uri = new Uri(urlPadrao + url);
             try
             {
@@ -157,30 +190,32 @@ namespace IntegracaoBC.Provider.BoaConsulta
                 using var _http = new HttpClient();
                 _http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", tokenAcesso);
                 var _response = _http.GetAsync(_uri).GetAwaiter().GetResult();
-
+                _retorno.Sucesso = _response.IsSuccessStatusCode;
+                _retorno.CodigoHttp = _response.StatusCode;
                 if (_response.StatusCode == HttpStatusCode.NotFound)
-                    return "Not.Found";
+                    return _retorno;
 
+                var _resultContent = _response.Content.ReadAsStringAsync().GetAwaiter().GetResult();
                 if (_response.StatusCode != HttpStatusCode.OK)
                 {
-                    throw new Exception($"Erro na chamada a API({url}) . [HttpStatus={_response.StatusCode}, Mensagem={_response.ReasonPhrase}]");
+                    _retorno.Resultado = $"Erro na chamada a API({url}). Mensagem={_response.ReasonPhrase}]";
+                    return _retorno;
                 }
-                var _resultContent = _response.Content.ReadAsStringAsync().GetAwaiter().GetResult();
-                _retorno = _resultContent;
+                _retorno.Resultado = _resultContent;
             }
             catch (WebException ex)
             {
-                _retorno = $"Exception ao chamar API({url}). [Error=21005] [Status={ex.Status}] [Message={ex.Message}";
+                _retorno.Resultado = $"Exception ao chamar API({url}). [Error=21005] [Status={ex.Status}] [Message={ex.Message}";
             }
             catch (Exception e)
             {
-                _retorno = $"Exception ao chamar API({url}). [Error=21006] [Message={e.Message}";
+                _retorno.Resultado = $"Exception ao chamar API({url}). [Error=21006] [Message={e.Message}";
             }
 
             return _retorno;
         }
 
-        public async Task<string> GetAsync2(string url)
+        public async Task<ProviderResponse> GetAsync2(string url)
         {
             var _uri = $"{url}?client_id={clientId}&client_secret={clientSecret}&user_id={userId}&per_page=1000";
             

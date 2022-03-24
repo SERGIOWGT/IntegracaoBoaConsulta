@@ -1,6 +1,6 @@
 ﻿using IntegracaoBC.Domain.Interfaces;
 using IntegracaoBC.Domain.Mappings;
-using IntegracaoBC.Provider.BoaConsulta;
+using IntegracaoBC.Providers.Interfaces;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -17,7 +17,7 @@ namespace IntegracaoBC.Domain.Implementations
             {
                 var _url = $"export/specialties/{specialtyId}/reasons";
                 var _resp = await iProviderBoaConsulta.GetAsync2(_url);
-                var _retorno = JsonConvert.DeserializeObject<BoaConsultaResponse<ReasonResponse>>(_resp);
+                var _retorno = JsonConvert.DeserializeObject<BoaConsultaResponse<ReasonResponse>>(_resp.Resultado);
                 return (IEnumerable<ReasonResponse>)_retorno.objects;
             }
             catch

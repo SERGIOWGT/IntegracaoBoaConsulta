@@ -23,7 +23,7 @@ namespace IntegracaoBC.EndPoints.Controllers
             string _retorno;
             if ((_retorno = Autentica()) != "OK")
                 return BadRequest(_retorno);
-
+            
             try
             {
                 var _erros = (List<string>)await _iService.Executa();
@@ -34,7 +34,6 @@ namespace IntegracaoBC.EndPoints.Controllers
             {
                 return BadRequest(e.Message);
             }
-
         }
     }
 }
