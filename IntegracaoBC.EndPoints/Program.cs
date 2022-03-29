@@ -21,6 +21,7 @@ namespace IntegracaoBC.EndPoints
                 })
               .UseSerilog((hostContext, services, logger) => {
                   logger.ReadFrom.Configuration(hostContext.Configuration);
+                  logger.WriteTo.File("logs/all-.logs", rollingInterval: RollingInterval.Day);
               });
     }
 }

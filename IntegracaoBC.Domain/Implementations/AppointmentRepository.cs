@@ -12,19 +12,13 @@ namespace IntegracaoBC.Domain.Implementations
         public async Task<Tuple<string, string>> Confirm(string id)
         {
             var _retorno = "OK";
-            try
-            {
-                string jsonParam = "{\"note\":\"" + id + "\"}";
+            string jsonParam = "{\"note\":\"" + id + "\"}";
 
-                var _url = $"appointments/{id}/confirm";
-                var _retornoApi = await iProviderBoaConsulta.PostAsync(jsonParam, _url);
-                if (_retornoApi.Sucesso == false)
-                    _retorno = _retornoApi.Resultado;
-            }
-            catch (Exception e)
-            {
-                _retorno = $"Exception ao chamar confirm:appointments. [Message={e.Message}";
-            }
+            var _url = $"appointments/{id}/confirm";
+            var _retornoApi = await iProviderBoaConsulta.PostAsync(jsonParam, _url);
+            if (_retornoApi.Sucesso == false)
+                _retorno = _retornoApi.Resultado;
+
             return new Tuple<string, string> (_retorno, "");
         }
     }

@@ -10,56 +10,37 @@ namespace IntegracaoBC.Domain.Implementations
 {
     public class ConvenioRepository : BaseD021Repository, IConvenioRepository
     {
-
         public ConvenioRepository(IProvider021Dental iProvider) : base(iProvider) { }
         public async Task<IEnumerable<ConvenioResponse>> Lista()
         {
 
-            try
-            {
-                var _resp = await iProvider.GetAsync("Convenios?usuarioId=1");
+            var _resp = await iProvider.GetAsync("Convenios?usuarioId=1");
 
-                if (_resp.CodigoHttp == System.Net.HttpStatusCode.NotFound)
-                    return null;
+            if (_resp.CodigoHttp == System.Net.HttpStatusCode.NotFound)
+                return null;
 
-                if (_resp.Sucesso == false)
-                    throw new System.Exception(_resp.Resultado);
+            if (_resp.Sucesso == false)
+                throw new System.Exception(_resp.Resultado);
 
+            var _retorno = JsonConvert.DeserializeObject<IEnumerable<ConvenioResponse>>(_resp.Resultado);
 
-
-                var _retorno = JsonConvert.DeserializeObject<IEnumerable<ConvenioResponse>>(_resp.Resultado);
-
-                return _retorno;
-            }
-            catch
-            {
-                throw;
-            }
+            return _retorno;
 
         }
         public async Task<ConvenioSimpleResponse> ListaPorBCId(string id)
         {
+            var _resp = await iProvider.GetAsync($"Convenios/ListaPorIdBoaConsulta?boaConsultaId={id}&usuarioId=1");
 
-            try
-            {
-                var _resp = await iProvider.GetAsync($"Convenios/ListaPorIdBoaConsulta?boaConsultaId={id}&usuarioId=1");
+            if (_resp.CodigoHttp == System.Net.HttpStatusCode.NotFound)
+                return null;
 
-                if (_resp.CodigoHttp == System.Net.HttpStatusCode.NotFound)
-                    return null;
-
-                if (_resp.Sucesso == false)
-                    throw new System.Exception(_resp.Resultado);
+            if (_resp.Sucesso == false)
+                throw new System.Exception(_resp.Resultado);
 
 
-                var _retorno = JsonConvert.DeserializeObject<ConvenioSimpleResponse>(_resp.Resultado);
+            var _retorno = JsonConvert.DeserializeObject<ConvenioSimpleResponse>(_resp.Resultado);
 
-                return _retorno;
-            }
-            catch
-            {
-                throw;
-            }
-
+            return _retorno;
         }
     }
 }

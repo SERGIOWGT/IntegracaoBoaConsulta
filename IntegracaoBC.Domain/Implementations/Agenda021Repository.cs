@@ -22,41 +22,28 @@ namespace IntegracaoBC.Domain.Implementations
         {
             var _retorno = "OK";
             long _agendamentoId = 0;
-            try
-            {
-                var _jsonParam = JsonConvert.SerializeObject(novo);
-                var _resp = await iProvider.PutAsync(_jsonParam, "agenda/Marca");
-                if (_resp.Sucesso == false)
-                    return new Tuple<string, long> (_resp.Resultado, _agendamentoId);
+            var _jsonParam = JsonConvert.SerializeObject(novo);
+            var _resp = await iProvider.PutAsync(_jsonParam, "agenda/Marca");
+            if (_resp.Sucesso == false)
+                return new Tuple<string, long> (_resp.Resultado, _agendamentoId);
 
-                var _xxx = JsonConvert.DeserializeObject<MarcaConsultaResponse>(_resp.Resultado);
-                _agendamentoId = _xxx.AgendamentoId;
-                _retorno = _xxx.Mensagem;
-            }
-            catch (Exception e)
-            {
-                _retorno = $"Exception ao chamar marcaConsulta [Error=21006] [Message={e.Message}";
-            }
+            var _xxx = JsonConvert.DeserializeObject<MarcaConsultaResponse>(_resp.Resultado);
+            _agendamentoId = _xxx.AgendamentoId;
+            _retorno = _xxx.Mensagem;
+
             return new Tuple<string, long>(_retorno, _agendamentoId);
         }
 
         public async Task<IEnumerable<DataSlotResponse>> ListaVagas(long expedienteId, long especialidadeAgendaId, long consultorioId, DateTime dataInicio, DateTime dataFim)
         {
-            try
-            {
-                var _url = $"agenda/ListaHorariosLivresBoaConsulta?expedienteId={expedienteId}&especialidadeAgendaId={especialidadeAgendaId}&consultorioId={consultorioId}&dataInicio={dataInicio:yyyy-MM-dd}&dataFim={dataFim:yyyy-MM-dd}";
-                var _resp = await iProvider.GetAsync(_url);
+            var _url = $"agenda/ListaHorariosLivresBoaConsulta?expedienteId={expedienteId}&especialidadeAgendaId={especialidadeAgendaId}&consultorioId={consultorioId}&dataInicio={dataInicio:yyyy-MM-dd}&dataFim={dataFim:yyyy-MM-dd}";
+            var _resp = await iProvider.GetAsync(_url);
 
-                if (_resp.Sucesso == false)
-                    throw new Exception(_resp.Resultado);
+            if (_resp.Sucesso == false)
+                throw new Exception(_resp.Resultado);
 
-                var _retorno = JsonConvert.DeserializeObject<IEnumerable<DataSlotResponse>>(_resp.Resultado);
-                return _retorno;
-            }
-            catch
-            {
-                throw;
-            }
+            var _retorno = JsonConvert.DeserializeObject<IEnumerable<DataSlotResponse>>(_resp.Resultado);
+            return _retorno;
         }
     }
 }

@@ -16,44 +16,26 @@ namespace IntegracaoBC.Infra.BoaConsulta.Repositories
         public async Task<string> Create(NewAgendaRequest novo)
         {
             var _retorno = "OK";
-            try
-            {
-                var _jsonParam = JsonConvert.SerializeObject(novo);
-                var _resp = await iProviderBoaConsulta.PostAsync(_jsonParam, "agendas");
+            var _jsonParam = JsonConvert.SerializeObject(novo);
+            var _resp = await iProviderBoaConsulta.PostAsync(_jsonParam, "agendas");
 
-                if (_resp.Sucesso == false)
-                    _retorno = _resp.Resultado;
+            if (_resp.Sucesso == false)
+                _retorno = _resp.Resultado;
 
-            }
-            catch (Exception e)
-            {
-                _retorno = $"Exception ao chamar new:doctors. [Error=21006] [Message={e.Message}";
-            }
             return _retorno;
         }
 
         public async Task<AgendaResponse> Existe(string id)
         {
-            try
-            {
-                var _resp = await iProviderBoaConsulta.GetAsync($"agendas/{id}");
-                if (_resp.CodigoHttp == System.Net.HttpStatusCode.NotFound)
-                    return null;
+            var _resp = await iProviderBoaConsulta.GetAsync($"agendas/{id}");
+            if (_resp.CodigoHttp == System.Net.HttpStatusCode.NotFound)
+                return null;
 
-                if (_resp.Sucesso == false)
-                    throw new Exception(_resp.Resultado);
+            if (_resp.Sucesso == false)
+                throw new Exception(_resp.Resultado);
 
-
-                var _retorno = JsonConvert.DeserializeObject<AgendaResponse>(_resp.Resultado);
-                return _retorno;
-            }
-            catch
-            {
-                throw;
-            }
-
+            var _retorno = JsonConvert.DeserializeObject<AgendaResponse>(_resp.Resultado);
+            return _retorno;
         }
-
-        
     }
 }

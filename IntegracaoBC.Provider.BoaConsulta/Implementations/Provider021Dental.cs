@@ -9,30 +9,24 @@ using System.Threading.Tasks;
 
 namespace IntegracaoBC.Providers.Implementations
 {
-    public class Provider021Dental : IProvider021Dental
+    public class Provider021Dental : Provider021, IProvider021Dental
     {
 
-        protected readonly IConfiguration iConfiguration;
-        private string token = "";
-        private readonly string urlPadrao = "";
-
-        public Provider021Dental(IConfiguration iConfiguration)
-        {
-            this.iConfiguration = iConfiguration;
-
-            urlPadrao = this.iConfiguration["ConfigApiDental021:UrlBase"];
-            token = this.iConfiguration["ConfigApiDental021:Token"];
-        }
-
+        public Provider021Dental(IConfiguration iConfiguration) : base(iConfiguration, "ConfigApiDental021") { }
 
         public async Task<ProviderResponse> GetAsync(string url)
         {
-            ProviderResponse _retorno = new()
-            {
-                Sucesso = false,
-                CodigoHttp = HttpStatusCode.BadRequest,
-                Resultado = ""
-            };
+            ProviderResponse _retorno = new();
+
+            _retorno = ValidaChamada(url);
+            if (_retorno.Sucesso == false)
+                return _retorno;
+
+
+            _retorno.Sucesso = false;
+            _retorno.CodigoHttp = HttpStatusCode.BadRequest;
+            _retorno.Resultado = "";
+
 
             var _uri = new Uri(urlPadrao + url);
             try
@@ -59,10 +53,12 @@ namespace IntegracaoBC.Providers.Implementations
                             var _erros = JsonConvert.DeserializeObject<ErrosResponse>(_resultContent);
                             _msgErro += $"Mensagem={_erros.Erros[0].Mensagem}]";
                             _retorno.Resultado = _msgErro;
+                            return _retorno;
                         }
                     }
                     _msgErro += $"[HttpStatus={_response.StatusCode}] Mensagem={_response.ReasonPhrase}]";
                     _retorno.Resultado = _msgErro;
+                    return _retorno;
                 }
                 _retorno.Resultado = _resultContent;
             }

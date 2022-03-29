@@ -20,40 +20,26 @@ namespace IntegracaoBC.Domain.Implementations
 
         public async Task<IEnumerable<PacienteResponse>> Lista(string cpf, DateTime nascimento)
         {
-            try
-            {
-                var _resp = await iProvider.GetAsync($"pacientes/PorCpfDataNascimento?cpf={cpf}&nascimento={nascimento:yyyy-MM-dd}");
-                if (_resp.CodigoHttp == HttpStatusCode.NotFound)
-                    return null;
+            var _resp = await iProvider.GetAsync($"pacientes/PorCpfDataNascimento?cpf={cpf}&nascimento={nascimento:yyyy-MM-dd}");
+            if (_resp.CodigoHttp == HttpStatusCode.NotFound)
+                return null;
 
-                if (_resp.Sucesso == false) 
-                    throw new Exception(_resp.Resultado);
+            if (_resp.Sucesso == false) 
+                throw new Exception(_resp.Resultado);
                 
-                return JsonConvert.DeserializeObject<IEnumerable<PacienteResponse>>(_resp.Resultado);
-            }
-            catch
-            {
-                throw;
-            }
+            return JsonConvert.DeserializeObject<IEnumerable<PacienteResponse>>(_resp.Resultado);
 
         }
 
         public async Task<string> Altera(long id, AlteraPacienteRequest update)
         {
             var _retorno = "OK";
-            try
-            {
-                var _jsonParam = JsonConvert.SerializeObject(update);
-                var _resp = await iProvider.PutAsync(_jsonParam, $"pacientes/{id}");
+            var _jsonParam = JsonConvert.SerializeObject(update);
+            var _resp = await iProvider.PutAsync(_jsonParam, $"pacientes/{id}");
 
-                if (_resp.Sucesso == false)
-                    _retorno = _resp.Resultado;
+            if (_resp.Sucesso == false)
+                _retorno = _resp.Resultado;
 
-            }
-            catch (Exception e)
-            {
-                _retorno = $"Exception ao chamar new:location. [Error=21006] [Message={e.Message}";
-            }
             return _retorno;
         }
 
@@ -61,22 +47,17 @@ namespace IntegracaoBC.Domain.Implementations
         {
             string _retorno;
             long _pacienteId = 0;
-            try
-            {
-                PacienteResponse _paciente;
-                var _jsonParam = JsonConvert.SerializeObject(novo);
-                var _resp = await iProvider.PostAsync(_jsonParam, $"pacientes");
-                if (_resp.Sucesso == false)
-                    return new Tuple<string, long> (_resp.Resultado, 0);
 
-                _paciente = JsonConvert.DeserializeObject<PacienteResponse>(_resp.Resultado);
-                _pacienteId = _paciente.Id;
-                _retorno = "OK";
-            }
-            catch (Exception e)
-            {
-                _retorno = $"Exception ao chamar new:location. [Error=21006] [Message={e.Message}";
-            }
+            PacienteResponse _paciente;
+            var _jsonParam = JsonConvert.SerializeObject(novo);
+            var _resp = await iProvider.PostAsync(_jsonParam, $"pacientes");
+            if (_resp.Sucesso == false)
+                return new Tuple<string, long> (_resp.Resultado, 0);
+
+            _paciente = JsonConvert.DeserializeObject<PacienteResponse>(_resp.Resultado);
+            _pacienteId = _paciente.Id;
+            _retorno = "OK";
+
             return new Tuple<string, long> (_retorno, _pacienteId);
         }
     }

@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace IntegracaoBC.Providers.Implementations
 {
-    public class ProviderAgenda021 : IProviderAgenda021
+    public class ProviderAgenda021 : Provider021, IProviderAgenda021
     {
         protected enum EnumCommand
         {
@@ -26,27 +26,18 @@ namespace IntegracaoBC.Providers.Implementations
             public string mensagem { get; set;}
         }
 
-        protected readonly IConfiguration iConfiguration;
-        private string token = "";
-        private readonly string urlPadrao = "";
 
-        public ProviderAgenda021(IConfiguration iConfiguration)
-        {
-            this.iConfiguration = iConfiguration;
-
-            urlPadrao = this.iConfiguration["ConfigApiAgenda021:UrlBase"];
-            token = this.iConfiguration["ConfigApiAgenda021:Token"];
-        }
-
-
+        public ProviderAgenda021(IConfiguration iConfiguration) : base(iConfiguration, "ConfigApiAgenda021") { }
+        
         public async Task<ProviderResponse> GetAsync(string url)
         {
-            ProviderResponse _retorno = new()
-            {
-                Sucesso = false,
-                CodigoHttp = HttpStatusCode.BadRequest,
-                Resultado = ""
-            };
+            var _retorno = ValidaChamada(url);
+            if (_retorno.Sucesso == false)
+                return _retorno;
+
+            _retorno.Sucesso = false;
+            _retorno.CodigoHttp = HttpStatusCode.BadRequest;
+            _retorno.Resultado = "";
 
             var _uri = new Uri(urlPadrao + url);
             try
@@ -83,11 +74,13 @@ namespace IntegracaoBC.Providers.Implementations
         }
         protected async Task<ProviderResponse> CommandAsync(EnumCommand command, string jsonParams, string url, Boolean comAutorizacao = true)
         {
-            ProviderResponse _retorno = new() {
-                Sucesso = false,
-                CodigoHttp = HttpStatusCode.BadRequest,
-                Resultado = ""
-            };
+            var _retorno = ValidaChamada(url);
+            if (_retorno.Sucesso == false)
+                return _retorno;
+
+            _retorno.Sucesso = false;
+            _retorno.CodigoHttp = HttpStatusCode.BadRequest;
+            _retorno.Resultado = "";
 
             var _uri = new Uri(urlPadrao + url);
             try

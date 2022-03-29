@@ -18,56 +18,39 @@ namespace IntegracaoBC.Infra.BoaConsulta.Repositories
         {
             String _retorno = "OK";
             ProviderResponse _retornoApi;
-            try
-            {
-                var _jsonParam = JsonConvert.SerializeObject(novo);
-                _retornoApi = await iProviderBoaConsulta.PostAsync(_jsonParam, "doctors");
-                if (_retornoApi.Sucesso == false)
-                    throw new Exception(_retornoApi.Resultado);
-            }
-            catch (Exception e)
-            {
-                _retorno = $"Exception ao chamar new:doctors. [Error=21006] [Message={e.Message}";
-            }
+
+            var _jsonParam = JsonConvert.SerializeObject(novo);
+            _retornoApi = await iProviderBoaConsulta.PostAsync(_jsonParam, "doctors");
+            if (_retornoApi.Sucesso == false)
+                throw new Exception(_retornoApi.Resultado);
+            
             return _retorno;
         }
         public async Task<DoctorResponse> Existe(long id)
         {
-            try
-            {
-                var _resp = await iProviderBoaConsulta.GetAsync($"doctors/{id}");
+            var _resp = await iProviderBoaConsulta.GetAsync($"doctors/{id}");
 
-                if (_resp.CodigoHttp == System.Net.HttpStatusCode.NotFound)
-                    return null;
+            if (_resp.CodigoHttp == System.Net.HttpStatusCode.NotFound)
+                return null;
 
-                if (_resp.Sucesso == false)
-                    throw new Exception(_resp.Resultado);
+            if (_resp.Sucesso == false)
+                throw new Exception(_resp.Resultado);
 
-                var _retorno = JsonConvert.DeserializeObject<DoctorResponse>(_resp.Resultado);
-                return _retorno;
-            }
-            catch
-            {
-                throw;
-            }
+            var _retorno = JsonConvert.DeserializeObject<DoctorResponse>(_resp.Resultado);
+            return _retorno;
         }
 
         public async Task<string> Update(long id, UpdateDoctorRequest doctor)
         {
             var _retorno = "OK";
             ProviderResponse _retornoApi;
-            try
-            {
-                var _jsonParam = JsonConvert.SerializeObject(doctor);
-                _retornoApi = await iProviderBoaConsulta.PostAsync(_jsonParam, $"doctors/{id}/doctor_info");
 
-                if (_retornoApi.Sucesso == false)
-                    throw new Exception(_retornoApi.Resultado);
-            }
-            catch (Exception e)
-            {
-                _retorno = $"Exception ao chamar update:doctors. [Error=21006] [Message={e.Message}";
-            }
+            var _jsonParam = JsonConvert.SerializeObject(doctor);
+            _retornoApi = await iProviderBoaConsulta.PostAsync(_jsonParam, $"doctors/{id}/doctor_info");
+
+            if (_retornoApi.Sucesso == false)
+                throw new Exception(_retornoApi.Resultado);
+
             return _retorno;
         }
     }

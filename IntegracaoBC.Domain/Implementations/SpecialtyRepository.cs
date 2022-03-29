@@ -14,23 +14,16 @@ namespace IntegracaoBC.Domain.Implementations
 
         public async Task<IEnumerable<SpecialtyResponse>> GetAll()
         {
-            try
-            {
-                var _resp = await iProviderBoaConsulta.GetAsync2("export/specialties");
+            var _resp = await iProviderBoaConsulta.GetAsync2("export/specialties");
 
-                if (_resp.CodigoHttp == System.Net.HttpStatusCode.NotFound)
-                    return null;
+            if (_resp.CodigoHttp == System.Net.HttpStatusCode.NotFound)
+                return null;
 
-                if (_resp.Sucesso == false)
-                    throw new System.Exception(_resp.Resultado);
+            if (_resp.Sucesso == false)
+                throw new System.Exception(_resp.Resultado);
 
-                var _retorno = JsonConvert.DeserializeObject<BoaConsultaResponse<SpecialtyResponse>>(_resp.Resultado);
-                return (IEnumerable<SpecialtyResponse>)_retorno.objects;
-            }
-            catch
-            {
-                throw;
-            }
+            var _retorno = JsonConvert.DeserializeObject<BoaConsultaResponse<SpecialtyResponse>>(_resp.Resultado);
+            return (IEnumerable<SpecialtyResponse>)_retorno.objects;
         }
     }
 }

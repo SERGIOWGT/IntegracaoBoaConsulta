@@ -15,24 +15,18 @@ namespace IntegracaoBC.Domain.Implementations
         public async Task<SlotResponse> Lista(long expedienteId, DateTime data, string horario)
         {
             var _strDataHora = data.ToString("yyyy-MM-dd " + horario);
-            try
-            {
-                var _resp = await iProvider.GetAsync($"Slots?expedienteId={expedienteId}&dataHora={_strDataHora}&usuarioId=1");
 
-                if (_resp.CodigoHttp == System.Net.HttpStatusCode.NotFound)
-                    return null;
+            var _resp = await iProvider.GetAsync($"Slots?expedienteId={expedienteId}&dataHora={_strDataHora}&usuarioId=1");
 
-                if (_resp.Sucesso == false)
-                    throw new System.Exception(_resp.Resultado);
+            if (_resp.CodigoHttp == System.Net.HttpStatusCode.NotFound)
+                return null;
 
-                var _retorno = JsonConvert.DeserializeObject<SlotResponse>(_resp.Resultado);
+            if (_resp.Sucesso == false)
+                throw new System.Exception(_resp.Resultado);
 
-                return _retorno;
-            }
-            catch
-            {
-                throw;
-            }
+            var _retorno = JsonConvert.DeserializeObject<SlotResponse>(_resp.Resultado);
+
+            return _retorno;
         }
     }
 }
